@@ -1,4 +1,5 @@
 [Detail](https://www.kan.run/)
+
 [bucket list(人生でやりたいことリスト)](https://www.kan.run/bucketlist/)
 
 ![](./images/L1003226.jpg)
