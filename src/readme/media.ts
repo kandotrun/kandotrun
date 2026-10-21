@@ -1,7 +1,7 @@
-// LATEST section body: newest Zenn articles as a Markdown list and newest
-// YouTube uploads as linked thumbnails. Pure: FeedSnapshot in, Markdown out.
-// The caller (render.ts) owns the "### LATEST" heading and drops it when this
-// returns "".
+// MEDIA section body: newest Zenn articles as a Markdown list and the most
+// viewed YouTube videos as linked thumbnails. Pure: FeedSnapshot in, Markdown
+// out. The caller (render.ts) owns the "### MEDIA" heading and drops it when
+// this returns "".
 import type { FeedItem, FeedSnapshot, VideoItem } from "../contract/schema";
 import { esc } from "../render/svg";
 
@@ -28,8 +28,18 @@ function oneLine(text: string): string {
   return text.replace(/\s+/g, " ").trim();
 }
 
-function newestFirst<T extends FeedItem>(items: readonly T[]): T[] {
+function newestFirst(items: readonly FeedItem[]): FeedItem[] {
   return [...items].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+}
+
+function mostViewedFirst(videos: readonly VideoItem[]): VideoItem[] {
+  return [...videos].sort((a, b) => b.viewCount - a.viewCount);
+}
+
+/** YouTube's Japanese style: "9,539回再生" under 10,000, then "7.1万回再生" / "4万回再生". */
+export function formatViews(count: number): string {
+  if (count < 10_000) return `${count.toLocaleString("en-US")}回再生`;
+  return `${(Math.round(count / 1_000) / 10).toString()}万回再生`;
 }
 
 /**
@@ -62,7 +72,7 @@ function videoCard(video: VideoItem): string {
   const cell = [
     `<td width="${CARD_WIDTH}" valign="top">`,
     `<a href="${href}"><img src="${esc(video.thumbnail)}" width="${THUMB_WIDTH}" alt="${title}"></a>`,
-    `<br><sub>${jstDate(video.publishedAt)}</sub>`,
+    `<br><sub>▶ ${formatViews(video.viewCount)}</sub>`,
     `<br><a href="${href}">${title}</a>`,
     `</td>`,
   ].join("");
@@ -71,13 +81,13 @@ function videoCard(video: VideoItem): string {
 
 /** One HTML block (no blank lines inside); `clear` stops the next section wrapping around the cards. */
 function youtubeCards(videos: readonly VideoItem[]): string {
-  const cards = newestFirst(videos).slice(0, MAX_VIDEOS).map(videoCard);
+  const cards = mostViewedFirst(videos).slice(0, MAX_VIDEOS).map(videoCard);
   return [...cards, `<br clear="all">`].join("\n");
 }
 
-export function renderLatest(feeds: FeedSnapshot): string {
+export function renderMedia(feeds: FeedSnapshot): string {
   const blocks: string[] = [];
-  if (feeds.zenn.length > 0) blocks.push("#### Zenn", zennList(feeds.zenn));
-  if (feeds.youtube.length > 0) blocks.push("#### YouTube", youtubeCards(feeds.youtube));
+  if (feeds.zenn.length > 0) blocks.push("#### Zenn <sub>新着記事</sub>", zennList(feeds.zenn));
+  if (feeds.youtube.length > 0) blocks.push(`#### YouTube <sub>再生数トップ ${MAX_VIDEOS}</sub>`, youtubeCards(feeds.youtube));
   return blocks.join("\n\n");
 }

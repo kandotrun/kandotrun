@@ -162,15 +162,22 @@ export const FeedItem = z.object({
 });
 export type FeedItem = z.infer<typeof FeedItem>;
 
-export const VideoItem = FeedItem.extend({
+/** A regular (non-Short) upload, ranked by views. */
+export const VideoItem = z.object({
   id: z.string().regex(/^[\w-]{11}$/),
+  title: z.string().min(1),
+  url: z.url(),
   thumbnail: z.url(),
+  /** As YouTube lists it: exact under 10,000, rounded above (e.g. 71000). */
+  viewCount: z.number().int().nonnegative(),
 });
 export type VideoItem = z.infer<typeof VideoItem>;
 
 export const FeedSnapshot = z.object({
   fetchedAt: z.iso.datetime(),
+  /** Newest Zenn articles. */
   zenn: z.array(FeedItem),
+  /** Most viewed regular videos, highest first. */
   youtube: z.array(VideoItem),
 });
 export type FeedSnapshot = z.infer<typeof FeedSnapshot>;

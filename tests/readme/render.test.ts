@@ -18,8 +18,8 @@ const feeds: FeedSnapshot = {
       id: "rRWcNvxJvfk",
       title: "90万円のDGX SparkでDeepSeek V4を動かした結論",
       url: "https://www.youtube.com/watch?v=rRWcNvxJvfk",
-      publishedAt: "2026-09-01T09:00:00+00:00",
       thumbnail: "https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg",
+      viewCount: 9539,
     },
   ],
 };
@@ -65,7 +65,8 @@ describe("renderReadme", () => {
     }
   });
 
-  it("includes the latest Zenn and YouTube items", () => {
+  it("includes the Zenn articles and popular YouTube videos under MEDIA", () => {
+    expect(readme).toMatch(/^### MEDIA <sub>新しい記事と人気の動画<\/sub>$/m);
     expect(readme).toContain("https://zenn.dev/nixo/articles/abc");
     expect(readme).toContain("https://www.youtube.com/watch?v=rRWcNvxJvfk");
   });

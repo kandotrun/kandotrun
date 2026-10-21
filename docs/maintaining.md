@@ -12,9 +12,14 @@ data and run the build; never edit the output by hand.
 
 ## Commands
 
+`just snapshot` needs [yt-dlp](https://github.com/yt-dlp/yt-dlp) on `PATH`
+(`brew install yt-dlp`); the workflow installs a pinned version with pipx. If
+YouTube changes break it, the snapshot keeps the previous videos and the run logs
+a warning — bump the version in `.github/workflows/update.yml`.
+
 ```bash
 just install    # once
-just snapshot   # refresh data/snapshot/*.json (GitHub stats, Zenn, YouTube)
+just snapshot   # refresh data/snapshot/*.json (GitHub stats, Zenn, most viewed YouTube videos)
 just build      # render assets/generated/ and README.md
 just check      # typecheck + ast-grep + unit tests
 just e2e        # render via GitHub's Markdown API and screenshot dark/light, desktop/mobile

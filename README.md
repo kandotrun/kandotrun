@@ -46,9 +46,9 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/contrib-dark.svg"><img src="assets/generated/contrib-light.svg" alt="直近 1 年のコントリビューションをスキャンするアニメーション" width="100%"></picture>
 
-### LATEST <sub>新しい記事と動画</sub>
+### MEDIA <sub>新しい記事と人気の動画</sub>
 
-#### Zenn
+#### Zenn <sub>新着記事</sub>
 
 - `2026-06-22` · [AI生成HTMLを「信頼せず」に配信する ― Cloudflare Workers + Hono で作る認証付きホスティングの設計](https://zenn.dev/nixo/articles/8f5807a6cefd36)
 - `2026-06-12` · [【国内最強(俺調べ)】「辛いラーメン」を「つらいラーメン」と読むTTSにキレて、日本語読み推定モデルを自作した【1268問ベンチマーク】](https://zenn.dev/nixo/articles/3139042d4034f2)
@@ -56,21 +56,21 @@
 - `2026-05-26` · [【調子いい!!】令和のスクレイピングは、これが良いと思う。【Perplexity Agent API】](https://zenn.dev/fp16/articles/58ae408cdd5539)
 - `2026-02-12` · [【2026年版】日本語RAGのEmbeddingモデル、結局どれが最強なのか？6構成で2000問ベンチマークした](https://zenn.dev/fp16/articles/aa48dcae23974e)
 
-#### YouTube
+#### YouTube <sub>再生数トップ 3</sub>
 
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=-SE-qu4JSTY"><img src="https://i.ytimg.com/vi/-SE-qu4JSTY/maxresdefault.jpg" width="219" alt="Osmo Pocket 4Pが良すぎて、X-M5を売ることにした"></a><br><sub>2026-09-08</sub><br><a href="https://www.youtube.com/watch?v=-SE-qu4JSTY">Osmo Pocket 4Pが良すぎて、X-M5を売ることにした</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY"><img src="https://i.ytimg.com/vi/vwBRNTa6gVY/maxresdefault.jpg" width="219" alt="Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】"></a><br><sub>▶ 7.1万回再生</sub><br><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY">Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】</a></td>
 </tr>
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ"><img src="https://i.ytimg.com/vi/2KjUQdEJOZQ/maxresdefault.jpg" width="219" alt="真夏36℃のTesla、ドッグモードは効く？1時間半後の車内温度を実測"></a><br><sub>2026-09-06</sub><br><a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ">真夏36℃のTesla、ドッグモードは効く？1時間半後の車内温度を実測</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8"><img src="https://i.ytimg.com/vi/8FmOzkeUvJ8/maxresdefault.jpg" width="219" alt="3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた"></a><br><sub>▶ 4万回再生</sub><br><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8">3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた</a></td>
 </tr>
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/maxresdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>2026-09-04</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/maxresdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,540回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
 </tr>
 </table>
 <br clear="all">

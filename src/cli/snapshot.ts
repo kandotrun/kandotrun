@@ -1,14 +1,19 @@
 // Refreshes data/snapshot/*.json. Each source is independent: if one fails, its
-// previous snapshot is kept and a warning is printed, so the README still builds.
+// previous data is kept and a warning is printed, so the README still builds.
 import { execFileSync } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { profile } from "../../data/profile";
-import { fetchFeedSnapshot } from "../fetch/feeds";
+import { FeedSnapshot } from "../contract/schema";
+import { fetchZennFeed } from "../fetch/feeds";
 import { fetchGitHubSnapshot } from "../fetch/github";
+import { mergeFeedSnapshot } from "../fetch/merge";
+import { fetchPopularVideos } from "../fetch/youtube";
 
 const root = process.cwd();
 const now = new Date();
+const FEEDS = "data/snapshot/feeds.json";
+const GITHUB = "data/snapshot/github.json";
 
 function githubToken(): string {
   const fromEnv = process.env.PROFILE_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
@@ -23,30 +28,34 @@ async function save(path: string, data: unknown): Promise<void> {
   console.log(`wrote ${path}`);
 }
 
-const jobs: Array<[string, () => Promise<void>]> = [
-  [
-    "data/snapshot/github.json",
-    async () => save("data/snapshot/github.json", await fetchGitHubSnapshot({ login: profile.handle, token: githubToken(), now })),
-  ],
-  [
-    "data/snapshot/feeds.json",
-    async () =>
-      save(
-        "data/snapshot/feeds.json",
-        await fetchFeedSnapshot({ zennUser: profile.zennUser, youtubeChannelId: profile.youtubeChannelId, now }),
-      ),
-  ],
-];
-
-let failures = 0;
-for (const [path, job] of jobs) {
+/** Each part of the previous feeds snapshot that still matches the contract. */
+async function previousFeeds(): Promise<FeedSnapshot | null> {
   try {
-    await job();
-  } catch (error) {
-    failures += 1;
-    const message = error instanceof Error ? error.message : String(error);
-    // GitHub Actions annotation; harmless locally.
-    console.log(`::warning title=snapshot::keeping previous ${path}: ${message}`);
+    const raw = JSON.parse(await readFile(join(root, FEEDS), "utf8")) as Record<string, unknown>;
+    const zenn = FeedSnapshot.shape.zenn.safeParse(raw.zenn);
+    const youtube = FeedSnapshot.shape.youtube.safeParse(raw.youtube);
+    return { fetchedAt: String(raw.fetchedAt), zenn: zenn.data ?? [], youtube: youtube.data ?? [] };
+  } catch {
+    return null;
   }
 }
-if (failures === jobs.length) process.exit(1);
+
+/** Runs one source; on failure prints a GitHub Actions warning and returns undefined. */
+async function attempt<T>(source: string, job: () => Promise<T>): Promise<T | undefined> {
+  try {
+    return await job();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`::warning title=snapshot::keeping previous ${source} data: ${message}`);
+    return undefined;
+  }
+}
+
+const github = await attempt("GitHub", () => fetchGitHubSnapshot({ login: profile.handle, token: githubToken(), now }));
+if (github) await save(GITHUB, github);
+
+const zenn = await attempt("Zenn", () => fetchZennFeed({ user: profile.zennUser }));
+const youtube = await attempt("YouTube", () => fetchPopularVideos({ channelId: profile.youtubeChannelId }));
+if (zenn || youtube) await save(FEEDS, mergeFeedSnapshot(await previousFeeds(), { zenn, youtube }, now));
+
+if (!github && !zenn && !youtube) process.exit(1);

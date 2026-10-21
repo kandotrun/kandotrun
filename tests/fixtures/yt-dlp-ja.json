@@ -1,0 +1,57 @@
+{
+  "_type": "playlist",
+  "id": "UCN2JUuxLy8A4jT3RVdN6smw",
+  "title": "ニノミヤ - 動画",
+  "entries": [
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "rRWcNvxJvfk",
+      "url": "https://www.youtube.com/watch?v=rRWcNvxJvfk",
+      "title": "90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい",
+      "duration": 464,
+      "view_count": 9539,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "bXrsmVhOGn4",
+      "url": "https://www.youtube.com/watch?v=bXrsmVhOGn4",
+      "title": "Claude CodeもOpenClawもやめた。残ったのはCodexとHermes Agent",
+      "duration": 576,
+      "view_count": 6419,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "s1kUDZdbusU",
+      "url": "https://www.youtube.com/watch?v=s1kUDZdbusU",
+      "title": "ローカルLLMは半年で実用になった。でも100万円ならクラウドでいい【DGX Spark】",
+      "duration": 585,
+      "view_count": 8528,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "8FmOzkeUvJ8",
+      "url": "https://www.youtube.com/watch?v=8FmOzkeUvJ8",
+      "title": "3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた",
+      "duration": 1070,
+      "view_count": null,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "vwBRNTa6gVY",
+      "url": "https://www.youtube.com/watch?v=vwBRNTa6gVY",
+      "title": "Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】",
+      "duration": 1201,
+      "view_count": null,
+      "live_status": null
+    }
+  ]
+}

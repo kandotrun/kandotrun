@@ -1,0 +1,57 @@
+{
+  "_type": "playlist",
+  "id": "UCN2JUuxLy8A4jT3RVdN6smw",
+  "title": "ニノミヤ - Videos",
+  "entries": [
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "rRWcNvxJvfk",
+      "url": "https://www.youtube.com/watch?v=rRWcNvxJvfk",
+      "title": "Running DeepSeek V4 on a 900,000 Yen DGX Spark: My Verdict—A MacBook Is Just Fine",
+      "duration": 464,
+      "view_count": 9500,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "bXrsmVhOGn4",
+      "url": "https://www.youtube.com/watch?v=bXrsmVhOGn4",
+      "title": "I Stopped Using Claude Code and OpenClaw. Only Codex and Hermes Agent Remain.",
+      "duration": 576,
+      "view_count": 6400,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "s1kUDZdbusU",
+      "url": "https://www.youtube.com/watch?v=s1kUDZdbusU",
+      "title": "Local LLMs became practical in just six months. But for 1 million yen, the cloud is still better ...",
+      "duration": 585,
+      "view_count": 8500,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "8FmOzkeUvJ8",
+      "url": "https://www.youtube.com/watch?v=8FmOzkeUvJ8",
+      "title": "30,000 yen vs 1 million yen vs 3 million yen | We tested how much money is needed for a local LLM...",
+      "duration": 1070,
+      "view_count": 40000,
+      "live_status": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "vwBRNTa6gVY",
+      "url": "https://www.youtube.com/watch?v=vwBRNTa6gVY",
+      "title": "Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】",
+      "duration": 1201,
+      "view_count": 71000,
+      "live_status": null
+    }
+  ]
+}

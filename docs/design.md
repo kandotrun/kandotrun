@@ -29,8 +29,9 @@ third-party image services that rate-limit or go down.
    exposure-meter style activity readout. Regenerated daily.
 5. **CONTRIBUTION SCAN** — contribution grid "develops" under a scan line;
    an AF box locks onto the busiest week. Regenerated daily.
-6. **LATEST** — newest Zenn articles (Markdown list) and YouTube videos
-   (linked thumbnails). Regenerated daily.
+6. **MEDIA** — newest Zenn articles (Markdown list) and the three most viewed
+   regular YouTube videos (linked thumbnails with view counts). Regenerated daily;
+   view counts come from yt-dlp listing the channel's Videos tab (no API key).
 7. **SENSORS** — existing external badges (Oura health card, Hermes tokens).
 8. Products, OSS by category, archived OSS in `<details>`, links.
 
@@ -42,7 +43,7 @@ README (GitHub's sidebar already shows the company). Only public facts.
 ```
 data/profile.ts, data/photos.ts      hand-edited, validated by src/contract/schema.ts
 data/snapshot/github.json            written by src/fetch/github.ts  (daily)
-data/snapshot/feeds.json             written by src/fetch/feeds.ts   (daily)
+data/snapshot/feeds.json             written by src/fetch/{feeds,youtube}.ts (daily)
             │
             ▼
 src/render/*.ts   pure: (data, { theme, assets }) → SVG string

@@ -38,6 +38,8 @@ jobs:
       - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
 
       - run: pnpm install --frozen-lockfile
+      # Lists the channel's videos with view counts (no API key). Bump when YouTube changes break it.
+      - run: pipx install "yt-dlp==2026.8.19"
 
       # The contribution calendar already includes private contributions (the profile
       # shares them). Optional secret PROFILE_TOKEN (a PAT of the profile owner) also

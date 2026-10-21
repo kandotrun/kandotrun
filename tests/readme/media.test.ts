@@ -1,7 +1,7 @@
 import { XMLValidator } from "fast-xml-parser";
 import { describe, expect, it } from "vitest";
 import type { FeedItem, FeedSnapshot, VideoItem } from "../../src/contract/schema";
-import { renderLatest } from "../../src/readme/latest";
+import { formatViews, renderMedia } from "../../src/readme/media";
 
 const zenn: FeedItem[] = [
   {
@@ -17,17 +17,22 @@ const zenn: FeedItem[] = [
   },
 ];
 
-function video(id: string, day: number, title = `動画 ${id}`): VideoItem {
+function video(id: string, viewCount: number, title = `動画 ${id}`): VideoItem {
   return {
     id,
     title,
     url: `https://www.youtube.com/watch?v=${id}`,
-    publishedAt: `2026-09-${String(day).padStart(2, "0")}T22:00:00Z`,
     thumbnail: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+    viewCount,
   };
 }
 
-const youtube: VideoItem[] = [video("-SE-qu4JSTY", 7), video("2KjUQdEJOZQ", 5), video("rRWcNvxJvfk", 3), video("oOFbGsF_JR0", 1)];
+const youtube: VideoItem[] = [
+  video("-SE-qu4JSTY", 3200),
+  video("2KjUQdEJOZQ", 71000),
+  video("rRWcNvxJvfk", 9539),
+  video("oOFbGsF_JR0", 120),
+];
 
 function snapshot(parts: Partial<FeedSnapshot> = {}): FeedSnapshot {
   return { fetchedAt: "2026-10-21T03:00:00Z", zenn, youtube, ...parts };
@@ -45,26 +50,36 @@ function asXml(html: string): string {
 
 const ALLOWED_TAGS = new Set(["a", "img", "table", "tr", "td", "p", "br", "sub", "sup", "picture", "source", "details", "summary", "div"]);
 
-describe("renderLatest", () => {
-  const md = renderLatest(snapshot());
+describe("formatViews", () => {
+  it("writes Japanese view counts: exact under 10,000, then 万 with one decimal", () => {
+    expect(formatViews(9539)).toBe("9,539回再生");
+    expect(formatViews(71000)).toBe("7.1万回再生");
+    expect(formatViews(40000)).toBe("4万回再生");
+    expect(formatViews(123456)).toBe("12.3万回再生");
+    expect(formatViews(0)).toBe("0回再生");
+  });
+});
+
+describe("renderMedia", () => {
+  const md = renderMedia(snapshot());
 
   it("renders nothing when both feeds are empty", () => {
-    expect(renderLatest(snapshot({ zenn: [], youtube: [] }))).toBe("");
+    expect(renderMedia(snapshot({ zenn: [], youtube: [] }))).toBe("");
   });
 
   it("lists Zenn articles as `YYYY-MM-DD` · [title](url), dated in Japan time", () => {
-    expect(md).toContain("#### Zenn");
+    expect(md).toContain("#### Zenn <sub>新着記事</sub>");
     expect(md).toContain("- `2026-06-22` · [AI生成HTMLを「信頼せず」に配信する](https://zenn.dev/nixo/articles/8f5807a6cefd36)");
     expect(md).toContain("- `2026-06-12` · [日本語読み推定モデルを自作した](https://zenn.dev/nixo/articles/3139042d4034f2)");
   });
 
-  it("orders each half newest first regardless of snapshot order", () => {
-    const shuffled = renderLatest(snapshot({ zenn: [...zenn].reverse(), youtube: [...youtube].reverse() }));
+  it("orders Zenn newest first and videos by views, regardless of snapshot order", () => {
+    const shuffled = renderMedia(snapshot({ zenn: [...zenn].reverse(), youtube: [...youtube].reverse() }));
     expect(shuffled).toBe(md);
   });
 
-  it("shows up to three linked YouTube thumbnails with dates and titles beneath", () => {
-    expect(md).toContain("#### YouTube");
+  it("shows the three most viewed videos as linked thumbnails with views and titles beneath", () => {
+    expect(md).toContain("#### YouTube <sub>再生数トップ 3</sub>");
     const block = youtubeBlock(md);
     const cards = block.match(/<table align="left">[\s\S]*?<\/table>/g) ?? [];
     expect(cards).toHaveLength(3);
@@ -73,14 +88,15 @@ describe("renderLatest", () => {
         `<table align="left">`,
         `<tr>`,
         `<td width="246" valign="top">` +
-          `<a href="https://www.youtube.com/watch?v=-SE-qu4JSTY"><img src="https://i.ytimg.com/vi/-SE-qu4JSTY/maxresdefault.jpg" width="219" alt="動画 -SE-qu4JSTY"></a>` +
-          `<br><sub>2026-09-08</sub>` +
-          `<br><a href="https://www.youtube.com/watch?v=-SE-qu4JSTY">動画 -SE-qu4JSTY</a>` +
+          `<a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ"><img src="https://i.ytimg.com/vi/2KjUQdEJOZQ/maxresdefault.jpg" width="219" alt="動画 2KjUQdEJOZQ"></a>` +
+          `<br><sub>▶ 7.1万回再生</sub>` +
+          `<br><a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ">動画 2KjUQdEJOZQ</a>` +
           `</td>`,
         `</tr>`,
         `</table>`,
       ].join("\n"),
     );
+    expect(cards.map((card) => card.match(/watch\?v=([\w-]{11})/)?.[1])).toEqual(["2KjUQdEJOZQ", "rRWcNvxJvfk", "-SE-qu4JSTY"]);
     expect(md).not.toContain("oOFbGsF_JR0");
   });
 
@@ -98,21 +114,21 @@ describe("renderLatest", () => {
   });
 
   it("drops the Zenn half when there are no articles", () => {
-    const only = renderLatest(snapshot({ zenn: [] }));
+    const only = renderMedia(snapshot({ zenn: [] }));
     expect(only).not.toContain("Zenn");
     expect(only.startsWith("#### YouTube")).toBe(true);
   });
 
   it("drops the YouTube half when there are no videos", () => {
-    const only = renderLatest(snapshot({ youtube: [] }));
+    const only = renderMedia(snapshot({ youtube: [] }));
     expect(only).not.toContain("YouTube");
     expect(only).not.toContain("<table");
     expect(only.startsWith("#### Zenn")).toBe(true);
   });
 
   it("separates blocks with blank lines and keeps the HTML block free of them", () => {
-    expect(md).toMatch(/#### Zenn\n\n- /);
-    expect(md).toMatch(/#### YouTube\n\n<table align="left">/);
+    expect(md).toMatch(/#### Zenn[^\n]*\n\n- /);
+    expect(md).toMatch(/#### YouTube[^\n]*\n\n<table align="left">/);
     expect(youtubeBlock(md)).not.toMatch(/\n\s*\n/);
     expect(md.endsWith("\n")).toBe(false);
   });
@@ -124,15 +140,15 @@ describe("renderLatest", () => {
   });
 
   it("is deterministic", () => {
-    expect(renderLatest(snapshot())).toBe(md);
+    expect(renderMedia(snapshot())).toBe(md);
   });
 
   describe("escaping hostile titles", () => {
     const nasty = 'a [b] | <c> & "d" `e` *f* _g_ ~h~ \\ $x$ &copy;';
-    const out = renderLatest(
+    const out = renderMedia(
       snapshot({
         zenn: [{ ...zenn[0]!, title: nasty }],
-        youtube: [{ ...video("-SE-qu4JSTY", 7), title: nasty }],
+        youtube: [{ ...video("-SE-qu4JSTY", 3200), title: nasty }],
       }),
     );
 
@@ -153,13 +169,13 @@ describe("renderLatest", () => {
     });
 
     it("keeps multi-line titles on one line so the HTML block is not cut short", () => {
-      const multi = renderLatest(snapshot({ zenn: [], youtube: [{ ...video("-SE-qu4JSTY", 7), title: "line one\n\nline two" }] }));
+      const multi = renderMedia(snapshot({ zenn: [], youtube: [{ ...video("-SE-qu4JSTY", 3200), title: "line one\n\nline two" }] }));
       expect(multi).toContain(">line one line two</a>");
       expect(youtubeBlock(multi)).not.toMatch(/\n\s*\n/);
     });
 
     it("percent-encodes parentheses and spaces in Markdown link destinations", () => {
-      const odd = renderLatest(
+      const odd = renderMedia(
         snapshot({ youtube: [], zenn: [{ ...zenn[0]!, url: "https://zenn.dev/nixo/articles/a(b) c" }] }),
       );
       expect(odd).toContain("](https://zenn.dev/nixo/articles/a%28b%29%20c)");
