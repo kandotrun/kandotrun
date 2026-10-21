@@ -5,11 +5,14 @@ import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
+import { profile } from "../data/profile";
 
 const ROOT = process.cwd();
 const ORIGIN = "https://readme.test";
 const MARKDOWN_CSS = "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css";
 const BG = { dark: "#0d1117", light: "#ffffff" } as const;
+// hero + one frame per featured project + stats + contrib
+const GENERATED_PICTURES = 3 + profile.featured.length;
 
 function token(): string {
   return process.env.GITHUB_TOKEN || execFileSync("gh", ["auth", "token"], { encoding: "utf8" }).trim();
@@ -52,7 +55,7 @@ async function open(page: Page, scheme: "dark" | "light", contentWidth: number) 
 
 test("GitHub's sanitizer keeps every theme-aware <picture>", () => {
   const sources = html.match(/<source media="\(prefers-color-scheme: dark\)" srcset="assets\/generated\/[^"]+-dark\.svg">/g) ?? [];
-  expect(sources.length).toBe(9); // hero + 6 frames + stats + contrib
+  expect(sources.length).toBe(GENERATED_PICTURES);
   expect(html).not.toContain("<script");
 });
 
@@ -72,7 +75,7 @@ for (const scheme of ["dark", "light"] as const) {
       expect(broken, "broken images").toEqual([]);
 
       const local = images.filter((img) => img.src.startsWith(`${ORIGIN}/assets/generated/`));
-      expect(local.length).toBe(9);
+      expect(local.length).toBe(GENERATED_PICTURES);
       for (const img of local) expect(img.src.endsWith(`-${scheme}.svg`), img.src).toBe(true);
 
       // Let the animations play a little so the screenshot shows a composed frame.
@@ -86,10 +89,11 @@ test("desktop contact sheet shows three frames per row", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await open(page, "dark", 830);
   const tops = await page.$$eval('img[src*="/frames/"]', (imgs) => imgs.map((img) => Math.round(img.getBoundingClientRect().top)));
-  expect(tops).toHaveLength(6);
-  expect(new Set(tops.slice(0, 3)).size).toBe(1);
-  expect(new Set(tops.slice(3, 6)).size).toBe(1);
-  expect(tops[3]).toBeGreaterThan(tops[0] ?? 0);
+  expect(tops).toHaveLength(profile.featured.length);
+  for (let row = 0; row < tops.length; row += 3) {
+    expect(new Set(tops.slice(row, row + 3)).size, `row starting at frame ${row + 1}`).toBe(1);
+    if (row > 0) expect(tops[row]).toBeGreaterThan(tops[row - 3] ?? 0);
+  }
 });
 
 for (const [label, width, viewport, perRow] of [

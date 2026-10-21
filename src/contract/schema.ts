@@ -79,11 +79,17 @@ export const Profile = z.object({
   /** "最近つくっているもの" bullets; inline Markdown allowed. */
   recent: z.array(z.string().min(1)).min(1),
   products: z.array(Product),
-  featured: z.array(Project).length(6),
+  /** Contact-sheet frames, shown three per row: the length must fill whole rows. */
+  featured: z
+    .array(Project)
+    .min(3)
+    .max(15)
+    .refine((projects) => projects.length % 3 === 0, "featured must fill whole rows of three"),
   oss: z.array(OssCategory).min(1),
   archived: z.array(OssEntry),
   badges: z.array(Badge),
-  links: z.array(Link).min(1),
+  /** Where the hero image links to. */
+  website: z.url(),
   zennUser: z.string().min(1),
   youtubeChannelId: z.string().regex(/^UC[\w-]{22}$/),
 });

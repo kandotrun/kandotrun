@@ -8,10 +8,23 @@ describe("profile contract", () => {
     expect(() => Profile.parse(profile)).not.toThrow();
   });
 
-  it("features exactly six projects with unique ids", () => {
+  it("fills whole contact-sheet rows of three with unique ids", () => {
     const ids = profile.featured.map((p) => p.id);
-    expect(ids).toHaveLength(6);
-    expect(new Set(ids).size).toBe(6);
+    expect(ids.length % 3).toBe(0);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("puts every pinned repository on the contact sheet", () => {
+    const ids = profile.featured.map((p) => p.id);
+    for (const pinned of ["afterimage-app", "kururi-ai", "giga-site", "txt", "human-required-blog", "tamago-muku"]) {
+      expect(ids).toContain(pinned);
+    }
+  });
+
+  it("does not list a featured project again under OSS or archived", () => {
+    const featuredUrls = new Set(profile.featured.flatMap((p) => [p.url, p.repo].filter(Boolean)));
+    const listed = [...profile.oss.flatMap((c) => c.entries), ...profile.archived];
+    expect(listed.filter((entry) => featuredUrls.has(entry.url)).map((entry) => entry.name)).toEqual([]);
   });
 
   it("keeps job titles and age out of the README data", () => {

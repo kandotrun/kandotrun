@@ -53,7 +53,7 @@ describe("renderReadme", () => {
       expect(readme).toContain(`src="${light}"`);
     });
     const rows = readme.match(/<p align="center">\n<a href=[\s\S]*?<\/p>/g) ?? [];
-    expect(rows).toHaveLength(2);
+    expect(rows).toHaveLength(profile.featured.length / 3);
     for (const row of rows) expect(row.match(/<a href=/g)).toHaveLength(3);
   });
 
@@ -77,7 +77,7 @@ describe("renderReadme", () => {
     }
   });
 
-  it("lists the intro, now, recent work, products, OSS and links", () => {
+  it("lists the intro, now, recent work, products and OSS", () => {
     expect(readme).toContain(profile.intro);
     for (const item of profile.now) expect(readme).toContain(`- ${item}`);
     for (const item of profile.recent) expect(readme).toContain(`- ${item}`);
@@ -89,7 +89,11 @@ describe("renderReadme", () => {
       expect(readme).toContain(category.title);
       for (const entry of category.entries) expect(readme).toContain(`[${entry.name}](${entry.url})`);
     }
-    for (const link of profile.links) expect(readme).toContain(`[${link.label}](${link.url})`);
+  });
+
+  it("links the hero to the website and has no LINKS section", () => {
+    expect(readme).toContain(`<a href="${profile.website}"><picture>`);
+    expect(readme).not.toMatch(/^### LINKS/m);
   });
 
   it("folds archived projects into <details>", () => {

@@ -16,14 +16,26 @@
 
 <p align="center">
 <a href="https://giga-site.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/01-dark.svg"><img src="assets/generated/frames/01-light.svg" alt="ギガサイト便 — AI 生成 HTML を認証つき URL で共有" width="266"></picture></a>
-<a href="https://teslacam.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/02-dark.svg"><img src="assets/generated/frames/02-light.svg" alt="TeslaCam Viewer — 6 カメラ同期再生と合成動画の書き出し" width="266"></picture></a>
-<a href="https://github.com/kandotrun/hermes-video-understanding"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/03-dark.svg"><img src="assets/generated/frames/03-light.svg" alt="Hermes Video Understanding — 映像解析と文字起こしで動画を理解" width="266"></picture></a>
+<a href="https://github.com/kandotrun/afterimage-app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/02-dark.svg"><img src="assets/generated/frames/02-light.svg" alt="Afterimage — 動画を検索できる iOS ライフログ" width="266"></picture></a>
+<a href="https://github.com/kandotrun/kururi-ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/03-dark.svg"><img src="assets/generated/frames/03-light.svg" alt="Kururi AI — 横向き・逆さの写真を正す CLI" width="266"></picture></a>
 </p>
 
 <p align="center">
-<a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/04-dark.svg"><img src="assets/generated/frames/04-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
-<a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/05-dark.svg"><img src="assets/generated/frames/05-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
-<a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/06-dark.svg"><img src="assets/generated/frames/06-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
+<a href="https://txt.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/04-dark.svg"><img src="assets/generated/frames/04-light.svg" alt="txt — パスキーで暗号化した 1 枚のテキスト" width="266"></picture></a>
+<a href="https://human-required-blog.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/05-dark.svg"><img src="assets/generated/frames/05-light.svg" alt="Human Required Blog — World ID で人間だけが読めるブログ" width="266"></picture></a>
+<a href="https://github.com/mukumo/tamago-muku"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/06-dark.svg"><img src="assets/generated/frames/06-light.svg" alt="tamago-muku — 携帯ゲーム機で暮らす Rust 製ペット" width="266"></picture></a>
+</p>
+
+<p align="center">
+<a href="https://teslacam.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/07-dark.svg"><img src="assets/generated/frames/07-light.svg" alt="TeslaCam Viewer — 6 カメラ同期再生と合成動画の書き出し" width="266"></picture></a>
+<a href="https://send.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/08-dark.svg"><img src="assets/generated/frames/08-light.svg" alt="send — 端末で暗号化して渡すファイル転送" width="266"></picture></a>
+<a href="https://github.com/kandotrun/hermes-video-understanding"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/09-dark.svg"><img src="assets/generated/frames/09-light.svg" alt="Hermes Video Understanding — 映像解析と文字起こしで動画を理解" width="266"></picture></a>
+</p>
+
+<p align="center">
+<a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/10-dark.svg"><img src="assets/generated/frames/10-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
+<a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/11-dark.svg"><img src="assets/generated/frames/11-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
+<a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/12-dark.svg"><img src="assets/generated/frames/12-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
 </p>
 
 ### HISTOGRAM <sub>使っている言語と活動量</sub>
@@ -86,21 +98,13 @@
 #### AI / エージェント
 
 - [reframe](https://github.com/kandotrun/reframe) — 変化を追える根拠と意思決定のワークスペース。PyTorch で学習し、ブラウザの WASM で推論（[Live](https://reframe.2-38.com)）
-- [kururi-ai](https://github.com/kandotrun/kururi-ai) — Kururi AI CLI（[DeepWiki](https://deepwiki.com/kandotrun/kururi-ai)）
 - [r1-hermes](https://github.com/kandotrun/r1-hermes) — Rabbit R1 から Hermes Agent を安全に使うためのゲートウェイアダプター
-- [human-required-blog](https://github.com/kandotrun/human-required-blog) — World ID 認証で人間だけが読めるブログ
 - [gemini-indoor-localization](https://github.com/kandotrun/gemini-indoor-localization) — Gemini Embedding 2 を使った参照画像ベースの屋内位置推定
-
-#### プライバシー / 暗号化
-
-- [send](https://github.com/kandotrun/send) — 中身を預けない、端末で暗号化するファイル・文章転送サービス（[Live](https://send.2-38.com)）
-- [txt](https://github.com/kandotrun/txt) — メールアドレスなしで、パスキーで暗号化された 1 枚のテキストを読み書きできるアプリ
-- [life-atlas](https://github.com/kandotrun/life-atlas) — Google Timeline のエクスポートを地図とタイムラインでローカル閲覧するダッシュボード
-- [afterimage-app](https://github.com/kandotrun/afterimage-app) — プライバシー優先の iOS ライフログ。Hono バックエンドと非公開 R2 メディア
 
 #### ツール / アプリ
 
 - [traceglass](https://github.com/kandotrun/traceglass) — Rust、GPUI Kit、WebAssembly でつくったブラウザイベントエクスプローラー（[Live](https://traceglass.2-38.com)）
+- [life-atlas](https://github.com/kandotrun/life-atlas) — Google Timeline のエクスポートを地図とタイムラインでローカル閲覧するダッシュボード
 - [tapo-care-backup](https://github.com/kandotrun/tapo-care-backup) — 自分の Tapo Care クラウド録画をバックアップする非公式 CLI / watcher
 - [koreka](https://github.com/kandotrun/koreka) — 次に何をするかを決めるリアルタイムカード投票 PWA
 - [kaiwa](https://github.com/kandotrun/kaiwa) — Cloudflare Workers と WebRTC でつくるプログラマブルネットワーク
@@ -120,7 +124,3 @@
 - [openclaw-supermemory](https://github.com/kandotrun/openclaw-supermemory) — エージェントの応答前に supermemory から文脈を呼び出す OpenClaw プラグイン
 
 </details>
-
-### LINKS <sub>リンク</sub>
-
-[Website](https://kan.run) · [X](https://x.com/kandotrun) · [YouTube](https://www.youtube.com/@2-38com) · [Zenn](https://zenn.dev/nixo)

@@ -120,7 +120,7 @@ describe("renderFrame", () => {
     const edge = textsWithClass(svg, "edge").join(" ");
     expect(edge).toContain("KAN-NINOMIYA");
     expect(edge).toContain("03A");
-    expect(edge).toContain("03/06");
+    expect(edge).toContain(`03/${String(featured.length).padStart(2, "0")}`);
   });
 
   it("draws sprocket holes on both edges of the film", async () => {
@@ -166,7 +166,8 @@ describe("renderFrame", () => {
   });
 
   it("wraps a long Latin title at a space", async () => {
-    const svg = await renderFrame(input(2), ctx());
+    const index = featured.findIndex((p) => p.id === "hermes-video-understanding");
+    const svg = await renderFrame(input(index), ctx());
     expect(textsWithClass(svg, "db")).toEqual(["Hermes Video", "Understanding"]);
   });
 
