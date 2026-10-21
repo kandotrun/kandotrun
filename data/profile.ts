@@ -117,7 +117,7 @@ export const profile: Profile = {
       title: "TeslaCam Viewer",
       code: "TESLACAM",
       summary: "6 カメラ同期再生と合成動画の書き出し",
-      url: "https://teslacam.2-38.com/",
+      url: "https://github.com/kandotrun/teslacam-viewer",
       repo: "https://github.com/kandotrun/teslacam-viewer",
       stack: ["React", "TypeScript", "Workers"],
       kind: "product",
