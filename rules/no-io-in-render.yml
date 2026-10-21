@@ -2,14 +2,31 @@ id: no-io-in-render
 language: TypeScript
 severity: error
 message: Renderers must stay pure. Do file and network I/O in src/assets, src/fetch or src/cli and inject the result.
+note: |
+  Imports are allowlisted: only relative modules (./, ../contract, ../render, ../readme).
+  Packages, node: builtins and ../assets, ../fetch, ../cli are refused, as are fetch,
+  dynamic import(), require(), process and globalThis.
 files:
   - src/render/**
   - src/readme/**
 rule:
   any:
     - pattern: fetch($$$)
+    - pattern: $OBJ.fetch($$$)
+    - pattern: import($$$)
+    - pattern: require($$$)
+    - pattern: process
+    - pattern: globalThis
+    # The module specifier of an import/export ... from "...".
     - kind: string_fragment
-      regex: ^node:(fs|fs/promises|child_process|net|http|https)$
       inside:
-        kind: import_statement
-        stopBy: end
+        kind: string
+        inside:
+          field: source
+          any:
+            - kind: import_statement
+            - kind: export_statement
+      any:
+        - not:
+            regex: ^\.\.?/
+        - regex: ^\.\./(assets|fetch|cli)(/|$)

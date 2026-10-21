@@ -31,16 +31,17 @@ function ossLine(entry: OssEntry): string {
   return `- [${entry.name}](${entry.url}) — ${entry.summary}${extra}`;
 }
 
+/**
+ * One centred paragraph of inline frames that wraps by itself: 3 per line in
+ * github.com's 846 px column, 2 at 590-806 px, 1 on phones. Fixed rows of three
+ * broke into 2 + 1 with an orphan frame at every mid width.
+ */
 function contactSheet(profile: Profile): string {
   const cells = profile.featured.map(
     (project, index) =>
       `<a href="${project.url}">${picture("frame", `${project.title} — ${project.summary}`, { frame: { index, id: project.id }, width: FRAME_WIDTH })}</a>`,
   );
-  const rows: string[] = [];
-  for (let i = 0; i < cells.length; i += 3) {
-    rows.push(`<p align="center">\n${cells.slice(i, i + 3).join("\n")}\n</p>`);
-  }
-  return rows.join("\n\n");
+  return `<p align="center">\n${cells.join("\n")}\n</p>`;
 }
 
 export function renderReadme({ profile, feeds }: ReadmeInput): string {
@@ -64,7 +65,8 @@ export function renderReadme({ profile, feeds }: ReadmeInput): string {
       ? [
           heading("SENSORS", "センサー"),
           "",
-          profile.badges.map((b) => `<a href="${b.href}"><img src="${esc(b.src)}" alt="${esc(b.alt)}"></a>`).join("\n"),
+          // One line: GitHub's API (gfm mode) turns a soft line break into <br>.
+          profile.badges.map((b) => `<a href="${b.href}"><img src="${esc(b.src)}" alt="${esc(b.alt)}"></a>`).join(" "),
         ].join("\n")
       : "",
     [heading("WORK", "最近つくっているもの"), "", ...profile.recent.map((item) => `- ${item}`)].join("\n"),

@@ -18,8 +18,9 @@
 // Every looping animation shares one cycle of SEGMENT_SECONDS per photo. The
 // one-shot intro (typing, profile boxes) ends in its final state, which is also
 // the static reduced-motion frame: photo 1 with AF locked and its box.
-import type { PhotoMeta, Profile } from "../contract/schema";
+import type { Framing, PhotoMeta, Profile } from "../contract/schema";
 import { el, esc, svgDoc } from "./svg";
+import { advance, DISPLAY_CAP, displayWidth, kern, MONO_CAP, monoWidth } from "./text";
 import { fontStack, type Theme } from "./theme";
 import type { FontRole, RenderContext } from "./types";
 
@@ -51,46 +52,6 @@ export const MAX_PHOTO_URI_BYTES = 300_000;
 const MAX_PHOTOS_URI_BYTES = 800_000;
 /** No text below this (viewBox units): ~10 px at the 830 px README width. */
 export const MIN_TEXT_SIZE = 15;
-
-// ---------------------------------------------------------------------------
-// Font metrics (LINE Seed JP, 1/1000 em), measured offline with HarfBuzz so the
-// renderer can place typed glyphs and fit copy without reading font files.
-// Index = char code - 32 (printable ASCII). CJK and anything else: 1000.
-// ---------------------------------------------------------------------------
-
-const DISPLAY_BOLD_ADVANCE =
-  "345,282,499,837,645,1009,782,292,427,427,534,650,292,504,292,455,725,466,667,669,715,669,660,629,695,658,292,292,650,650,650,603,1125,815,743,863,827,671,636,880,834,319,587,785,663,1027,825,923,704,931,734,647,729,807,803,1202,738,770,671,377,455,377,650,613,392,694,694,626,694,621,435,694,665,288,288,643,288,1020,665,676,694,694,451,530,464,665,630,915,608,629,558,455,327,455,650"
-    .split(",")
-    .map(Number);
-const DISPLAY_ADVANCE =
-  "345,282,499,837,645,1009,782,292,427,427,534,650,292,504,292,455,725,466,667,669,715,669,660,629,695,658,292,292,650,650,650,603,1125,761,709,823,791,638,609,842,798,279,526,735,635,985,791,875,672,890,703,622,689,771,753,1154,691,717,655,377,455,377,650,613,359,659,659,580,659,583,391,659,626,249,249,577,249,978,626,630,659,659,405,500,420,623,572,854,548,571,533,455,327,455,634"
-    .split(",")
-    .map(Number);
-/** Uppercase kerning pairs of LINE Seed JP Bold. */
-const DISPLAY_BOLD_KERN: Record<string, number> = Object.fromEntries(
-  "AC-43 AG-43 AO-43 AQ-43 AS-22 AT-119 AU-43 AV-108 AW-97 AY-119 BA-32 BC-22 BG-22 BO-22 BQ-22 BT-32 BV-43 BW-43 BX-11 BY-49 CA-43 CC-22 CG-22 CO-22 CQ-22 CS-11 CT-32 CV-43 CW-43 CX-43 CY-54 CZ-11 DA-43 DJ-16 DS-11 DT-43 DU-11 DV-43 DW-43 DX-43 DY-65 DZ-11 FA-87 FC-11 FG-11 FJ-22 FO-11 FQ-11 GA-43 GJ-16 GS-11 GT-43 GU-11 GV-43 GW-43 GX-43 GY-65 GZ-11 JA-22 KC-54 KG-54 KJ-22 KO-54 KQ-54 KS-32 KT-22 KU-16 LC-54 LG-54 LO-54 LQ-54 LS-22 LT-119 LU-32 LV-108 LW-108 LY-141 OA-43 OJ-16 OS-11 OT-43 OU-11 OV-43 OW-43 OX-43 OY-65 OZ-11 PA-87 PC-11 PG-11 PJ-54 PO-11 PQ-11 PT-11 PV-22 PW-22 PX-43 PY-43 PZ-22 QA-11 QC-22 QG-22 QO-22 QQ-22 QS-11 QT-43 QU-22 QV-65 QW-76 QX-22 QY-97 RC-11 RG-11 RJ-11 RO-11 RQ-11 RS-11 RT-22 RU-16 RV-43 RW-32 RY-54 SA-22 SC-11 SG-11 SO-11 SQ-11 ST-11 SV-22 SW-11 SX-22 SY-22 TA-119 TC-43 TG-43 TJ-54 TO-43 TQ-43 TS-11 UA-43 UC-11 UG-11 UO-11 UQ-11 VA-108 VC-43 VG-43 VJ-54 VO-43 VQ-43 VS-22 WA-97 WC-43 WG-43 WJ-54 WO-43 WQ-43 WS-11 XC-43 XG-43 XJ-11 XO-43 XQ-43 XS-22 YA-119 YC-65 YG-65 YJ-65 YO-65 YQ-65 YS-22 ZC-11 ZG-11 ZO-11 ZQ-11"
-    .split(" ")
-    .map((pair) => [pair.slice(0, 2), Number(pair.slice(2))]),
-);
-/** Cap height of LINE Seed JP Bold, in em. */
-const DISPLAY_CAP = 0.75;
-/** JetBrains Mono advance and cap height, in em. */
-const MONO_ADVANCE = 0.6;
-const MONO_CAP = 0.73;
-
-function displayAdvance(ch: string, bold: boolean): number {
-  const code = ch.codePointAt(0) ?? 0;
-  const table = bold ? DISPLAY_BOLD_ADVANCE : DISPLAY_ADVANCE;
-  return (code >= 32 && code <= 126 ? table[code - 32] : undefined) ?? 1000;
-}
-
-function displayWidth(text: string, size: number, bold = false): number {
-  let units = 0;
-  for (const ch of text) units += displayAdvance(ch, bold);
-  return (units * size) / 1000;
-}
-
-const monoWidth = (text: string, size: number) => [...text].length * MONO_ADVANCE * size;
 
 // ---------------------------------------------------------------------------
 // Small helpers
@@ -169,58 +130,14 @@ function kbProgressAt(t: number): number {
 const SHOWN_P = kbProgressAt(T.subject);
 
 // ---------------------------------------------------------------------------
-// Photo framing: where each photo sits, its subject and its move. Picked by
-// looking at assets/photos/*.jpg. Unknown photos get a centred cover framing.
+// Photo framing: where each photo sits, its subject and its move. Placed by eye
+// per photo in data/photos.ts (see Framing in src/contract/schema.ts).
 // ---------------------------------------------------------------------------
 
-type Motion = { kind: "tilt"; dy: number } | { kind: "push"; zoom: number };
+export type { Framing };
 
-export interface Framing {
-  /** Photo pixels → canvas units. */
-  scale: number;
-  /** Canvas position of the photo's top-left corner in the settled state. */
-  ox: number;
-  oy: number;
-  /** Subject bounds in photo pixels. */
-  subject: [number, number, number, number];
-  /** Where the AF brackets lock, in canvas units. Push moves zoom around it. */
-  af: [number, number];
-  motion: Motion;
-  /** "hand": placed by eye for this photo. "auto": centred fallback for a photo nobody framed yet. */
-  source: "hand" | "auto";
-}
-
-const FRAMINGS: Record<string, Omit<Framing, "source">> = {
-  // Portrait tower: tilt up from the shaft to the cantilevered top.
-  architecture: {
-    scale: W / 932,
-    ox: 0,
-    oy: -400,
-    subject: [213, 380, 728, 1105],
-    af: [640, 240],
-    motion: { kind: "tilt", dy: 200 },
-  },
-  // The sticker on the white pole.
-  sticker: {
-    scale: 1.15,
-    ox: -126,
-    oy: -321,
-    subject: [668, 376, 768, 566],
-    af: [700, 222],
-    motion: { kind: "push", zoom: 0.06 },
-  },
-  // Roast-beef donburi, focused on the yolk.
-  donburi: {
-    scale: 0.96,
-    ox: -40,
-    oy: -254,
-    subject: [535, 334, 910, 668],
-    af: [649, 189],
-    motion: { kind: "push", zoom: 0.03 },
-  },
-};
-
-function covers(f: Omit<Framing, "source">, photo: PhotoMeta): boolean {
+/** True when the photo covers the whole frame at every point of its move. */
+function covers(f: Framing, photo: PhotoMeta): boolean {
   const w = photo.width * f.scale;
   const h = photo.height * f.scale;
   const lift = f.motion.kind === "tilt" ? f.motion.dy : 0;
@@ -228,14 +145,23 @@ function covers(f: Omit<Framing, "source">, photo: PhotoMeta): boolean {
 }
 
 function framingFor(photo: PhotoMeta): Framing {
-  const known = FRAMINGS[photo.id];
-  if (known && covers(known, photo)) return { ...known, source: "hand" };
+  const f = photo.framing;
+  if (!covers(f, photo)) {
+    throw new Error(
+      `renderHero: data/photos.ts framing for "${photo.id}" does not cover the ${W}x${H} frame (scale/ox/oy/dy); suggestFraming() in src/render/hero.ts drafts one that does`,
+    );
+  }
+  return f;
+}
+
+/** A centred cover framing with a central subject: a starting point for a new photo's entry in data/photos.ts. */
+export function suggestFraming(photo: Pick<PhotoMeta, "width" | "height">): Framing {
   const scale = Math.max(W / photo.width, H / photo.height);
   const ox = (W - photo.width * scale) / 2;
   const oy = (H - photo.height * scale) / 2;
   const subject: Framing["subject"] = [photo.width * 0.35, photo.height * 0.2, photo.width * 0.65, photo.height * 0.55];
-  const af: [number, number] = [ox + ((subject[0] + subject[2]) / 2) * scale, oy + ((subject[1] + subject[3]) / 2) * scale];
-  return { scale, ox, oy, subject, af, motion: { kind: "push", zoom: 0.05 }, source: "auto" };
+  const af: Framing["af"] = [ox + ((subject[0] + subject[2]) / 2) * scale, oy + ((subject[1] + subject[3]) / 2) * scale];
+  return { scale, ox, oy, subject, af, motion: { kind: "push", zoom: 0.05 } };
 }
 
 /** Ken Burns state at progress p: canvas = translate(tx,ty) scale(s) translate(-cx,-cy) · placed. */
@@ -300,7 +226,8 @@ const NAME = {
   chipMax: 21,
   chipMin: MIN_TEXT_SIZE,
   chipPadX: 6,
-  chipGap: 3,
+  /** Chips abut: a gap would show the outer boxes' top strokes running behind the label row. */
+  chipGap: 0,
   /** A chip leaves this much of its box edge visible after it. */
   chipTail: 6,
   zonePad: 14,
@@ -419,8 +346,7 @@ function nameGlyphs(chars: string[], x0: number, size: number): { glyphX: number
   let cursor = x0;
   chars.forEach((ch, i) => {
     glyphX.push(cursor);
-    const kern = DISPLAY_BOLD_KERN[ch + (chars[i + 1] ?? "")] ?? 0;
-    cursor += ((displayAdvance(ch, true) + kern) * size) / 1000 + NAME.tracking;
+    cursor += ((advance(ch, "display-bold") + kern(ch, chars[i + 1] ?? "")) * size) / 1000 + NAME.tracking;
   });
   return { glyphX, right: cursor - NAME.tracking };
 }
@@ -610,7 +536,7 @@ function layoutSubject(photo: PhotoMeta, f: Framing, zones: readonly Box[]): Sub
     box.y1 = Math.min(box.y1, unmapY(f, p, floorUnder(m.x0, m.x1, zones)));
   }
   if (box.x1 - box.x0 < 40 || box.y1 - box.y0 < 40) {
-    throw new Error(`renderHero: no room for the ${photo.id} subject box above the captions; adjust its framing in src/render/hero.ts`);
+    throw new Error(`renderHero: no room for the ${photo.id} subject box above the captions; adjust its framing in data/photos.ts`);
   }
   const h = chipHeight(SUBJECT_CHIP);
   const w = chipWidth(photo.subject, SUBJECT_CHIP);
@@ -858,10 +784,10 @@ function keylined(doc: Doc, shape: "rect" | "path", attrs: Record<string, string
   );
 }
 
-/** A YOLO-style label chip. */
-function chip(doc: Doc, c: Chip, size: number, fill: string): string {
+/** A YOLO-style label chip. `overlap` widens the fill under the next chip so abutting chips show no seam. */
+function chip(doc: Doc, c: Chip, size: number, fill: string, overlap = 0): string {
   return (
-    el("rect", { x: n(c.x), y: n(c.y), width: n(c.w), height: c.h, fill }) +
+    el("rect", { x: n(c.x), y: n(c.y), width: n(c.w + overlap), height: c.h, fill }) +
     doc.t.text("mono-bold", c.label, {
       x: n(c.x + NAME.chipPadX),
       y: n(c.y + c.h / 2 + (MONO_CAP * size) / 2),
@@ -1299,7 +1225,8 @@ function nameBlock(doc: Doc): string {
     doc.css += `.pd.pd${i}{animation-delay:${n(T.detectStart + i * T.detectStep)}s}`;
   }
   L.chips.forEach((c, i) => {
-    markup += el("g", { class: `pd pd${i}` }, chip(doc, c, L.chipSize, color(i)));
+    const overlap = i < L.chips.length - 1 ? 0.5 : 0;
+    markup += el("g", { class: `pd pd${i}` }, chip(doc, c, L.chipSize, color(i), overlap));
   });
 
   // Typed name: one glyph per step; a space takes a beat too.
@@ -1349,7 +1276,20 @@ function nameBlock(doc: Doc): string {
 function captionScrims(doc: Doc): string {
   const { theme, look, layout } = doc;
   const zones = layout.zones;
-  if (look.caption === "print") return zones.map((z) => el("rect", { ...rectOf(z), fill: theme.bg })).join("");
+  if (look.caption === "print") {
+    // One paper shape. Each later zone reaches left under the previous one (1 unit
+    // past its edge), so no sliver of photo runs down between the captions and
+    // the two never meet on an anti-aliased hairline. Paint only: layout.zones
+    // (subject clearance, grid mask) stay as laid out.
+    const d = zones
+      .map((z, i) => {
+        const prev = zones[i - 1];
+        const x0 = n(prev ? Math.min(z.x0, prev.x1) - 1 : z.x0);
+        return `M${x0} ${n(z.y0)}H${n(z.x1)}V${n(z.y1)}H${x0}Z`;
+      })
+      .join("");
+    return el("path", { d, fill: theme.bg });
+  }
 
   const stops = (list: Array<[number, number]>) =>
     list.map(([offset, opacity]) => el("stop", { offset, "stop-color": theme.bg, "stop-opacity": n(opacity) })).join("");

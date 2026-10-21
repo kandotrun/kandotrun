@@ -49,8 +49,9 @@ export const themes: Record<ThemeName, Theme> = {
     text: "#151515",
     muted: "#6d6a63",
     accent: "#d7001e",
-    lock: "#0e9f56",
-    detect: ["#0891b2", "#c27803", "#c026a3"],
+    // Chip fills: label ink (bg / surface) stays at WCAG AA, see tests/render/theme.test.ts.
+    lock: "#0b7a43",
+    detect: ["#0e7490", "#a15c00", "#c026a3"],
     levels: ["#e8e3d8", "#b9e2c8", "#7cc99c", "#33a46a", "#0e7f45"],
     film: "#2a241d",
     sprocket: "#f4f1ea",

@@ -23,17 +23,24 @@ third-party image services that rate-limit or go down.
    `KAN NINOMIYA▍` typed in. Dark = viewfinder, light = print with crop marks.
    Selected from three competing concepts by a three-judge panel.
 2. Intro paragraph + **NOW** list (Japanese).
-3. **CONTACT SHEET** — six featured projects as 35mm film frames, each its own
-   SVG wrapped in a link.
+3. **CONTACT SHEET** — twelve featured projects as 35mm film frames
+   (`frames/NN-<id>-<theme>.svg`), each its own SVG wrapped in a link. All frames
+   sit in one centred paragraph that wraps with the column: 3 per line at 846 px,
+   2 at 590–806 px, 1 on phones (fixed rows of three left orphan frames).
 4. **HISTOGRAM** — language mix drawn like a camera histogram, plus an
    exposure-meter style activity readout. Regenerated daily.
 5. **CONTRIBUTION SCAN** — contribution grid "develops" under a scan line;
    an AF box locks onto the busiest week. Regenerated daily.
 6. **MEDIA** — newest Zenn articles (Markdown list) and the three most viewed
-   regular YouTube videos (linked thumbnails with view counts). Regenerated daily;
-   view counts come from yt-dlp listing the channel's Videos tab (no API key).
-7. **SENSORS** — existing external badges (Oura health card, Hermes tokens).
-8. Products, OSS by category, archived OSS in `<details>`, links.
+   regular YouTube videos (linked 320×180 `mqdefault` thumbnails with view counts,
+   each a floated `<table align="left">` card: 3 per row on desktop, stacked on
+   phones, followed by `<p><br clear="all"></p>` — a bare `<br clear>` does not
+   clear them in Safari/iOS). Regenerated daily; view counts come from yt-dlp
+   listing the channel's Videos tab (no API key).
+7. **SENSORS** — existing external badges (Oura health card, Hermes tokens), on
+   one Markdown line.
+8. **WORK** (最近つくっているもの) — what is being built lately, as a list.
+9. Products, OSS by category, archived OSS in `<details>`.
 
 Content rules: no job titles, company names, age or family details in the
 README (GitHub's sidebar already shows the company). Only public facts.
@@ -52,14 +59,20 @@ src/readme/*.ts   pure: data → Markdown
             ▼
 src/cli/build.ts  writes assets/generated/**/*.svg and README.md
 src/cli/snapshot.ts  runs the fetchers
-.github/workflows/update.yml  daily: snapshot → build → check → commit
+.github/workflows/update.yml  daily: snapshot → build → check → commit → check-snapshot
 ```
 
 - **Contract first.** `src/contract/schema.ts` (zod) defines every input.
   Renderers never read files or the network; fonts and photos come through the
   injected `AssetLoader` (`src/render/types.ts`, real impl `src/assets/loader.ts`).
-  `rules/*.yml` (ast-grep) enforce: no `Date.now()/new Date()/Math.random()` and
-  no fs/network I/O under `src/render` and `src/readme`.
+  `rules/*.yml` (ast-grep) enforce under `src/render` and `src/readme`: imports
+  only from relative modules other than `../assets`, `../fetch` and `../cli` (no
+  packages, no `node:` builtins); no `fetch`, dynamic `import()`, `require`,
+  `process` or `globalThis`; no clock (`Date.now`, `new Date()`, `Date()`,
+  `performance`), no randomness (`Math.random`, `crypto`) and nothing that
+  depends on the host locale or time zone (`toLocale*String`, `Intl`, local-time
+  `Date` getters). `tests/purity-rules.test.ts` runs the rules over valid and
+  invalid snippets.
 - **Themes.** Every SVG is rendered twice from `src/render/theme.ts` tokens and
   shown with `<picture><source media="(prefers-color-scheme: dark)">`.
 - **Fonts.** JetBrains Mono (HUD) and LINE Seed JP (display, Japanese), OFL,
@@ -78,7 +91,12 @@ src/cli/snapshot.ts  runs the fetchers
 - Size budgets: hero <= 900 KB per theme (at most 4 photos, each data URI
   <= 300 KB, all photos <= 800 KB; renderHero throws otherwise), frame <= 60 KB,
   stats <= 80 KB (1280x460), contribution scan <= 150 KB (1280x360).
-- `tests/helpers/svg-assert.ts#expectGithubSafeSvg` checks all of the above.
+- `tests/helpers/svg-assert.ts#expectGithubSafeSvg`, used by every renderer's
+  tests, checks: well-formed XML with a `<title>`; no `<script>`,
+  `<foreignObject>`, event handlers or `<a>`; no external URLs or `@import`;
+  `prefers-reduced-motion` present when animated; CSS `@keyframes` only on
+  `transform`/`opacity`; and the byte budget the caller passes. Seamless loops,
+  cycle lengths and text sizes are checked in each renderer's own tests.
 
 ## Verification
 
@@ -89,15 +107,24 @@ src/cli/snapshot.ts  runs the fetchers
   SVG as a document with reduced motion, because emulation does not reach SVGs
   inside `<img>`). Chromium pauses animations of off-screen `<img>` SVGs, so
   full-page screenshots show below-the-fold panels at their first frame.
-- E2E (Playwright): render README.md through the GitHub Markdown API, inline the
-  local assets, screenshot dark/light at desktop and mobile widths, and assert
-  every image loads.
+- E2E (Playwright, Chromium and WebKit; Firefox too when `CI` is set): render
+  README.md through the GitHub Markdown API and serve the local assets with
+  raw.githubusercontent.com's CSP and nosniff headers. The harness copies the
+  profile page: README column 846 px (wide window), 766 px (~1200 px window)
+  and 311 px (iPhone), 14 px text (`f5`). It asserts every image loads in the
+  right theme, nothing overflows the column, the contact sheet has no orphan
+  frames, the next section starts below the YouTube cards, and the README has
+  no soft line breaks (the API's gfm mode renders them as `<br>`, github.com's
+  README view does not). Screenshots go to `.preview/e2e/`.
 
 ## Publishing
 
 This repository is published from its own history only. Hero photos are
-re-encoded with all metadata stripped before they are committed
-(`tests/photos.test.ts` fails on any EXIF/XMP/GPS data). Private terms that
+re-encoded with all metadata stripped before they are committed:
+`tests/photos.test.ts` checks every file in `assets/photos/` (and that
+`data/photos.ts` width/height match each JPEG), and the build refuses to embed a
+JPEG that still has Exif/XMP (APP1), IPTC (APP13), comment or other APPn
+segments (`src/assets/jpeg.ts`, called by the asset loader). Private terms that
 must never appear in the README are kept outside the repository: a local
 `.privacy-denylist` file (gitignored) or the `PRIVACY_DENYLIST` Actions secret,
 one term per line; `tests/privacy.test.ts` checks the data and the rendered

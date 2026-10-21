@@ -150,24 +150,22 @@ describe("renderFrame", () => {
     expect(svg).toContain(`.db{font-family:${fontStack.display};font-weight:700`);
   });
 
-  it("keeps the title large enough to read at 270 px wide, in at most two lines inside the frame", async () => {
-    for (const [index, project] of featured.entries()) {
-      const svg = await renderFrame(input(index), ctx());
-      const titles = [...svg.matchAll(/<text\b[^>]*class="db"[^>]*>/g)].map((m) => m[0]);
-      expect(titles.length, project.id).toBeGreaterThanOrEqual(1);
-      expect(titles.length, project.id).toBeLessThanOrEqual(2);
-      for (const t of titles) expect(Number(/font-size="([\d.]+)"/.exec(t)?.[1])).toBeGreaterThanOrEqual(44);
-      const box = /<rect\b[^>]*class="det"[^>]*>/.exec(svg)?.[0] ?? "";
-      const x = Number(/\sx="([\d.]+)"/.exec(box)?.[1]);
-      const w = Number(/\swidth="([\d.]+)"/.exec(box)?.[1]);
-      expect(x, project.id).toBeGreaterThanOrEqual(EXPOSURE.x);
-      expect(x + w, project.id).toBeLessThanOrEqual(EXPOSURE.x + EXPOSURE.w);
-    }
+  it("keeps a two-line title at 44 units or more, inside the exposure", async () => {
+    const project: Project = { ...featured[0]!, title: "Hermes Video Understanding" };
+    const svg = await renderFrame(input(0, project), ctx());
+    const titles = [...svg.matchAll(/<text\b[^>]*class="db"[^>]*>/g)].map((m) => m[0]);
+    expect(titles).toHaveLength(2);
+    for (const t of titles) expect(Number(/font-size="([\d.]+)"/.exec(t)?.[1])).toBeGreaterThanOrEqual(44);
+    const box = /<rect\b[^>]*class="det"[^>]*>/.exec(svg)?.[0] ?? "";
+    const x = Number(/\sx="([\d.]+)"/.exec(box)?.[1]);
+    const w = Number(/\swidth="([\d.]+)"/.exec(box)?.[1]);
+    expect(x).toBeGreaterThanOrEqual(EXPOSURE.x);
+    expect(x + w).toBeLessThanOrEqual(EXPOSURE.x + EXPOSURE.w);
   });
 
   it("wraps a long Latin title at a space", async () => {
-    const index = featured.findIndex((p) => p.id === "hermes-video-understanding");
-    const svg = await renderFrame(input(index), ctx());
+    const project: Project = { ...featured[0]!, title: "Hermes Video Understanding" };
+    const svg = await renderFrame(input(0, project), ctx());
     expect(textsWithClass(svg, "db")).toEqual(["Hermes Video", "Understanding"]);
   });
 
@@ -213,6 +211,15 @@ describe("renderFrame", () => {
     if (shown < project.stack.length) expect(last.text).toBe(`+${project.stack.length - shown}`);
   });
 
+  it("refuses a title that cannot fit the frame, naming the field", () => {
+    const title = "とても長いプロジェクトの名前がここに入るときの折り返しテスト用タイトルとても長いプロジェクトの名前がここに入るさらに長くなった場合のテストです";
+    expect(() => layoutFrame({ ...featured[0]!, title })).toThrow(/project\.title .*too long.*shorten it/);
+  });
+
+  it("refuses a project code that would shrink below the legible size, naming the field", () => {
+    expect(() => layoutFrame({ ...featured[0]!, code: "A".repeat(44) })).toThrow(/project\.code .*too long.*shorten it/);
+  });
+
   it("keeps a long project code clear of the status chip", async () => {
     const project: Project = { ...featured[0]!, code: "A VERY LONG PROJECT CODE NAME", status: "v10.20.300" };
     const layout = layoutFrame(project);
@@ -222,5 +229,18 @@ describe("renderFrame", () => {
   it("rejects a frame index outside the roll", async () => {
     await expect(renderFrame({ project: featured[0]!, index: 6, total: 6 }, ctx())).rejects.toThrow(RangeError);
     await expect(renderFrame({ project: featured[0]!, index: -1, total: 6 }, ctx())).rejects.toThrow(RangeError);
+  });
+});
+
+// Checks on the hand-edited data rather than on renderer behaviour: when one of
+// these fails, edit data/profile.ts, not the renderer.
+describe("data/profile.ts fits the contact sheet", () => {
+  it("keeps every featured title at 44 units or more in at most two lines (readable at 270 px)", () => {
+    featured.forEach((project, i) => {
+      const { title } = layoutFrame(project);
+      const what = `featured[${i}].title "${project.title}" sets in ${title.lines.length} line(s) at ${title.size} units`;
+      expect(title.lines.length, `${what}; shorten it to fit two lines`).toBeLessThanOrEqual(2);
+      expect(title.size, `${what}; shorten it to keep 44 units`).toBeGreaterThanOrEqual(44);
+    });
   });
 });

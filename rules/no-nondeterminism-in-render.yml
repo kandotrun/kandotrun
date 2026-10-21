@@ -1,12 +1,43 @@
 id: no-nondeterminism-in-render
 language: TypeScript
 severity: error
-message: Renderers must be deterministic. Pass the current time in through the input instead.
+message: Renderers must be deterministic. Pass the current time in through the input and format dates and numbers without the host locale or time zone.
+note: |
+  Refused: the clock (Date.now, new Date(), Date(), performance.now), randomness
+  (Math.random, crypto), and anything that depends on the host locale or time zone
+  (toLocaleString and friends, Intl, local-time Date getters such as getHours,
+  toDateString, toTimeString). new Date(value) with the getUTC getters or
+  toISOString stays allowed.
 files:
   - src/render/**
   - src/readme/**
 rule:
   any:
-    - pattern: Date.now()
+    - pattern: Date.now
     - pattern: new Date()
-    - pattern: Math.random()
+    # `new Date` without parentheses (the pattern form would also match new Date(x)).
+    - kind: new_expression
+      has:
+        field: constructor
+        regex: ^Date$
+      not:
+        has:
+          field: arguments
+          kind: arguments
+    - pattern: Date()
+    - pattern: Math.random
+    - pattern: performance
+    - pattern: crypto
+    - pattern: Intl
+    - pattern: $X.toLocaleString($$$)
+    - pattern: $X.toLocaleDateString($$$)
+    - pattern: $X.toLocaleTimeString($$$)
+    - pattern: $X.toDateString()
+    - pattern: $X.toTimeString()
+    - kind: call_expression
+      has:
+        field: function
+        kind: member_expression
+        has:
+          field: property
+          regex: ^get(FullYear|Month|Date|Day|Hours|Minutes|Seconds|Milliseconds|TimezoneOffset|Year)$

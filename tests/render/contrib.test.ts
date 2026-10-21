@@ -54,7 +54,41 @@ describe("gridCells", () => {
     const dayCount = snapshot.contributions.weeks.reduce((n, w) => n + w.days.length, 0);
     expect(cells).toHaveLength(dayCount);
     const first = cells[0];
-    expect(first).toMatchObject({ week: 0, row: 0, level: snapshot.contributions.weeks[0]?.days[0]?.level });
+    const day = snapshot.contributions.weeks[0]?.days[0];
+    expect(first).toMatchObject({ week: 0, row: 0, count: day?.count, date: day?.date });
+  });
+
+  it("shows level 0 exactly for empty days and keeps levels ordered by count", () => {
+    const cells = gridCells(snapshot.contributions);
+    for (const cell of cells) expect(cell.level === 0, `${cell.date} (${cell.count})`).toBe(cell.count === 0);
+    const sorted = [...cells].sort((a, b) => a.count - b.count);
+    sorted.forEach((cell, i) => {
+      if (i > 0) expect(cell.level).toBeGreaterThanOrEqual(sorted[i - 1]!.level);
+    });
+  });
+
+  it("spreads a heavy-tailed year across levels 1-4 instead of GitHub's flat level 1", () => {
+    // One outlier week squashes GitHub's quartiles: almost every active day is level 1.
+    const counts = Array.from({ length: 70 }, (_, i) => (i % 9 === 0 ? 0 : 3 + ((i * 7) % 40)));
+    counts[40] = 400;
+    counts[41] = 350;
+    const data = tinySnapshot(counts);
+    const max = Math.max(...counts);
+    for (const week of data.contributions.weeks) for (const d of week.days) d.level = d.count === 0 ? 0 : Math.ceil((d.count / max) * 4);
+    const github = data.contributions.weeks.flatMap((w) => w.days).filter((d) => d.level === 1).length;
+    const active = counts.filter((n) => n > 0).length;
+    expect(github / active).toBeGreaterThan(0.9);
+
+    const levels = gridCells(data.contributions).filter((c) => c.count > 0).map((c) => c.level);
+    for (const level of [1, 2, 3, 4]) expect(levels, `level ${level}`).toContain(level);
+    expect(levels.filter((l) => l === 1).length / active).toBeLessThan(0.5);
+    expect(levels.filter((l) => l === 4).length / active).toBeLessThan(0.15);
+  });
+
+  it("keeps GitHub's levels when there are too few active days for quantiles", () => {
+    const data = tinySnapshot([0, 0, 1, 0, 9, 0, 0, 3]);
+    const github = data.contributions.weeks.flatMap((w) => w.days.map((d) => d.level));
+    expect(gridCells(data.contributions).map((c) => c.level)).toEqual(github);
   });
 
   it("puts the first day of a partial week on its weekday row", () => {
@@ -76,6 +110,20 @@ describe("renderContrib", () => {
       expectGithubSafeSvg(svg, { maxBytes: BUDGET });
       expect(svg).toContain(`viewBox="0 0 1280 `);
     }
+  });
+
+  it("draws a square-cornered canvas like the hero and stats panels", async () => {
+    const { svg } = await render();
+    const canvas = /<rect\b[^>]*width="1280"[^>]*>/.exec(svg)?.[0] ?? "";
+    expect(canvas).toContain(`height="360"`);
+    expect(canvas).not.toMatch(/\srx=/);
+  });
+
+  it("blooms only the brightest days", async () => {
+    const { svg } = await render();
+    const top = gridCells(snapshot.contributions).filter((c) => c.level === 4).length;
+    expect(top).toBeGreaterThan(0);
+    expect(svg.match(/fill="url\(#halo\)"/g)).toHaveLength(top);
   });
 
   it("is deterministic", async () => {

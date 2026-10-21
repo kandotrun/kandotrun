@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { photos } from "../data/photos";
 import { profile } from "../data/profile";
-import { PhotoMeta, Profile } from "../src/contract/schema";
+import { Photos, Profile } from "../src/contract/schema";
 
 describe("profile contract", () => {
   it("parses against the Profile schema", () => {
@@ -36,10 +36,9 @@ describe("profile contract", () => {
 });
 
 describe("photo contract", () => {
-  it("parses every photo and only references files under assets/photos", () => {
-    expect(photos.length).toBeGreaterThanOrEqual(3);
+  it("parses as a hero photo set and only references files under assets/photos", () => {
+    expect(() => Photos.parse(photos)).not.toThrow();
     for (const photo of photos) {
-      expect(() => PhotoMeta.parse(photo)).not.toThrow();
       expect(photo.file).toMatch(/^assets\/photos\/[a-z0-9-]+\.jpg$/);
     }
   });

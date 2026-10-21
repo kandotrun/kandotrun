@@ -7,6 +7,7 @@
 import type { GitHubSnapshot } from "../contract/schema";
 import { contribStats, type Contributions, type ContribStats, type PeakWeek } from "./contrib-stats";
 import { el, esc, svgDoc } from "./svg";
+import { groupThousands as group, monoWidth } from "./text";
 import { fontStack, type Theme } from "./theme";
 import type { RenderContext } from "./types";
 
@@ -61,12 +62,38 @@ function weekday(date: string): number {
   return new Date(`${date}T00:00:00Z`).getUTCDay();
 }
 
+/**
+ * Display levels come from the counts in the window, not GitHub's day.level:
+ * one heavy week squashes GitHub's quartiles so most active days share level 1.
+ * Active days split at these quantiles into levels 1 / 2 / 3 / 4.
+ */
+const LEVEL_QUANTILES = [0.4, 0.75, 0.93] as const;
+/** With fewer active days the quantiles mean little; GitHub's levels are kept. */
+const MIN_ACTIVE_DAYS = 8;
+
+/** Count thresholds for levels 2, 3 and 4 (a day above thresholds[i] is at least level i + 2), or null to keep GitHub's levels. */
+function levelThresholds(c: Contributions): number[] | null {
+  const counts = c.weeks
+    .flatMap((week) => week.days.map((day) => day.count))
+    .filter((count) => count > 0)
+    .sort((a, b) => a - b);
+  if (counts.length < MIN_ACTIVE_DAYS) return null;
+  return LEVEL_QUANTILES.map((q) => counts[Math.floor(q * (counts.length - 1))] ?? 0);
+}
+
+function displayLevel(count: number, thresholds: readonly number[]): number {
+  if (count === 0) return 0;
+  return 1 + thresholds.filter((t) => count > t).length;
+}
+
 export function gridCells(c: Contributions): GridCell[] {
   const g = gridGeometry(c.weeks.length);
+  const thresholds = levelThresholds(c);
   return c.weeks.flatMap((week, w) =>
     week.days.map((day) => {
       const row = weekday(day.date);
-      return { week: w, row, x: g.left + w * g.pitch, y: g.top + row * g.pitch, level: day.level, count: day.count, date: day.date };
+      const level = thresholds ? displayLevel(day.count, thresholds) : day.level;
+      return { week: w, row, x: g.left + w * g.pitch, y: g.top + row * g.pitch, level, count: day.count, date: day.date };
     }),
   );
 }
@@ -139,15 +166,6 @@ function holdKeyframes(name: string, from: number, to: number): string {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function group(n: number): string {
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-/** JetBrains Mono advance width is 0.6em. */
-function monoWidth(text: string, size: number, tracking = 0): number {
-  return text.length * size * (0.6 + tracking);
-}
 
 function squares(cells: readonly GridCell[], size: number): string {
   const s = num(size);
@@ -270,8 +288,8 @@ function developLayer(c: Contributions, cells: readonly GridCell[], g: GridGeome
         .map((list, i) => (list.length ? el("path", { class: `l${i + 1}`, d: squares(list, g.cell) }) : ""))
         .join(""),
     );
-    // Bright days bloom a little, like highlights on a sensor.
-    const bright = column.filter((cell) => cell.level >= 3);
+    // The brightest days bloom a little, like highlights on a sensor.
+    const bright = column.filter((cell) => cell.level === 4);
     if (bright.length) {
       const r = num(g.cell * 1.6);
       halos += el(
@@ -495,7 +513,7 @@ export async function renderContrib(github: GitHubSnapshot, ctx: RenderContext):
   const hud = hudLayer(copy, g, theme);
 
   const body = [
-    el("rect", { width: CONTRIB_WIDTH, height: CONTRIB_HEIGHT, rx: 16, fill: theme.bg }),
+    el("rect", { width: CONTRIB_WIDTH, height: CONTRIB_HEIGHT, fill: theme.bg }),
     viewfinderCorners(theme),
     hud.markup,
     develop.markup,

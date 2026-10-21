@@ -5,6 +5,7 @@ import { join, normalize, sep } from "node:path";
 import subsetFont from "subset-font";
 import { dataUri } from "../render/svg";
 import type { AssetLoader, FontRole } from "../render/types";
+import { assertStrippedJpeg } from "./jpeg";
 
 export type { AssetLoader, FontRole };
 
@@ -51,7 +52,10 @@ export function createFsAssetLoader(root: string): AssetLoader {
       if (!rel.startsWith(`assets${sep}photos${sep}`) || rel.includes("..") || !rel.endsWith(".jpg")) {
         throw new Error(`photoDataUri: refusing ${file}`);
       }
-      return dataUri("image/jpeg", await readFile(join(root, rel)));
+      const bytes = await readFile(join(root, rel));
+      // The bytes go into a public SVG as-is: refuse anything that still has Exif/GPS.
+      assertStrippedJpeg(file, bytes);
+      return dataUri("image/jpeg", bytes);
     },
   };
 }

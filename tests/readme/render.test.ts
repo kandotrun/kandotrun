@@ -45,16 +45,18 @@ describe("renderReadme", () => {
     expect(readme).toMatch(/alt="Kan Ninomiya[^"]*"/);
   });
 
-  it("links every featured project to its frame card, three per row", () => {
+  it("links every featured project to its frame card in one wrapping contact sheet", () => {
     profile.featured.forEach((project, index) => {
       const { dark, light } = pictureFor("frame", { index, id: project.id });
       expect(readme).toContain(`<a href="${project.url}">`);
       expect(readme).toContain(`srcset="${dark}"`);
       expect(readme).toContain(`src="${light}"`);
     });
-    const rows = readme.match(/<p align="center">\n<a href=[\s\S]*?<\/p>/g) ?? [];
-    expect(rows).toHaveLength(profile.featured.length / 3);
-    for (const row of rows) expect(row.match(/<a href=/g)).toHaveLength(3);
+    // One paragraph that wraps by itself: 3 frames per line at 846 px, 2 at
+    // 590-766 px, 1 on phones. Fixed rows of 3 broke into 2+1 at mid widths.
+    const sheets = readme.match(/<p align="center">\n<a href=[\s\S]*?<\/p>/g) ?? [];
+    expect(sheets).toHaveLength(1);
+    expect(sheets[0]?.match(/<a href=/g)).toHaveLength(profile.featured.length);
   });
 
   it("includes the stats and contribution panels", () => {
@@ -76,6 +78,13 @@ describe("renderReadme", () => {
       expect(readme).toContain(`<a href="${badge.href}">`);
       expect(readme).toContain(badge.src.replace(/&/g, "&amp;"));
     }
+  });
+
+  it("puts the badges on one line: a soft line break would render as <br> in GitHub's gfm API mode", () => {
+    const sensors = readme.slice(readme.indexOf("### SENSORS"), readme.indexOf("### WORK"));
+    const lines = sensors.split("\n").filter((line) => line.includes("<img"));
+    expect(lines).toHaveLength(1);
+    expect(lines[0]?.match(/<a href=/g)).toHaveLength(profile.badges.length);
   });
 
   it("lists the intro, now, recent work, products and OSS", () => {

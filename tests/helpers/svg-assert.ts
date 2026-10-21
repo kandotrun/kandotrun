@@ -8,6 +8,33 @@ export interface GithubSafeOptions {
   maxBytes: number;
 }
 
+const ANIMATABLE = ["transform", "opacity", "animation-timing-function"];
+
+/** Every property set inside a CSS @keyframes block, @font-face rules excluded. */
+function keyframeProperties(svg: string): Array<{ name: string; prop: string }> {
+  const css = [...svg.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
+    .map((m) => m[1] ?? "")
+    .join("")
+    .replace(/@font-face\{[^}]*\}/g, "");
+  const out: Array<{ name: string; prop: string }> = [];
+  for (const block of css.matchAll(/@keyframes\s+([\w-]+)\s*\{((?:[^{}]*\{[^{}]*\})*)\s*\}/g)) {
+    for (const stop of (block[2] ?? "").matchAll(/[^{}]+\{([^{}]*)\}/g)) {
+      for (const decl of (stop[1] ?? "").split(";")) {
+        const prop = decl.split(":")[0]?.trim();
+        if (prop) out.push({ name: block[1] ?? "", prop });
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * What every generated SVG must satisfy to work as a GitHub README image:
+ * well-formed with a <title>; no scripts, foreignObject, event handlers or <a>;
+ * no external URLs or @import; prefers-reduced-motion handled when animated;
+ * CSS keyframes only on transform/opacity; and the caller's byte budget.
+ * Loop seams, cycle lengths and text sizes are checked in each renderer's tests.
+ */
 export function expectGithubSafeSvg(svg: string, { maxBytes }: GithubSafeOptions): void {
   expect(XMLValidator.validate(svg), "SVG must be well-formed XML").toBe(true);
   expect(svg.startsWith("<svg "), "document must start with <svg").toBe(true);
@@ -27,6 +54,10 @@ export function expectGithubSafeSvg(svg: string, { maxBytes }: GithubSafeOptions
   const animated = /@keyframes|<animate|<animateTransform|<animateMotion|<set\s/.test(svg);
   if (animated) {
     expect(svg, "animated SVGs must honor prefers-reduced-motion").toContain("prefers-reduced-motion");
+  }
+  // Compositor-only animation: other properties repaint every frame and stutter in <img>.
+  for (const { name, prop } of keyframeProperties(svg)) {
+    expect(ANIMATABLE, `@keyframes ${name} animates ${prop}`).toContain(prop);
   }
 
   const bytes = Buffer.byteLength(svg);

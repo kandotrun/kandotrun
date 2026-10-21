@@ -68,4 +68,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: refresh profile"
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          remote="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if ! git push "$remote" HEAD:main; then
+            # main moved during the run (usually the owner pushed): replay this commit on top once.
+            if ! git pull --rebase "$remote" main; then
+              git rebase --abort
+              echo "::notice title=commit::main moved and its generated files conflict with this run; the next run regenerates them"
+              exit 0
+            fi
+            git push "$remote" HEAD:main
+          fi
+
+      # A failed GitHub fetch only warns and keeps the old stats, so an expired
+      # PROFILE_TOKEN would go unnoticed. After a week this turns the run red.
+      - name: Check the GitHub snapshot is under a week old
+        run: just check-snapshot

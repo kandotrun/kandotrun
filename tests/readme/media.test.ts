@@ -22,7 +22,7 @@ function video(id: string, viewCount: number, title = `動画 ${id}`): VideoItem
     id,
     title,
     url: `https://www.youtube.com/watch?v=${id}`,
-    thumbnail: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+    thumbnail: `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
     viewCount,
   };
 }
@@ -40,7 +40,7 @@ function snapshot(parts: Partial<FeedSnapshot> = {}): FeedSnapshot {
 
 /** The raw HTML block GitHub receives for the YouTube half. */
 function youtubeBlock(markdown: string): string {
-  return markdown.match(/<table align="left">[\s\S]*<br clear="all">/)?.[0] ?? "";
+  return markdown.match(/<table align="left">[\s\S]*<br clear="all"><\/p>/)?.[0] ?? "";
 }
 
 /** HTML void tags written as XML so fast-xml-parser can check well-formedness. */
@@ -57,6 +57,8 @@ describe("formatViews", () => {
     expect(formatViews(40000)).toBe("4万回再生");
     expect(formatViews(123456)).toBe("12.3万回再生");
     expect(formatViews(0)).toBe("0回再生");
+    expect(formatViews(999)).toBe("999回再生");
+    expect(formatViews(1000)).toBe("1,000回再生");
   });
 });
 
@@ -88,7 +90,7 @@ describe("renderMedia", () => {
         `<table align="left">`,
         `<tr>`,
         `<td width="246" valign="top">` +
-          `<a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ"><img src="https://i.ytimg.com/vi/2KjUQdEJOZQ/maxresdefault.jpg" width="219" alt="動画 2KjUQdEJOZQ"></a>` +
+          `<a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ"><img src="https://i.ytimg.com/vi/2KjUQdEJOZQ/mqdefault.jpg" width="219" alt="動画 2KjUQdEJOZQ"></a>` +
           `<br><sub>▶ 7.1万回再生</sub>` +
           `<br><a href="https://www.youtube.com/watch?v=2KjUQdEJOZQ">動画 2KjUQdEJOZQ</a>` +
           `</td>`,
@@ -105,8 +107,11 @@ describe("renderMedia", () => {
     // 1 px border (content-box under plain github-markdown-css), so three cards fit in an 830 px column either way and a 219 px image fills each.
     const block = youtubeBlock(md);
     expect(block.match(/<td width="246"/g)).toHaveLength(3);
-    expect(block.endsWith(`</table>\n<br clear="all">`)).toBe(true);
-    expect(md.endsWith(`<br clear="all">`)).toBe(true);
+    // A bare <br clear> does not clear block floats in WebKit (Safari, every iOS
+    // browser): the next heading wrapped beside the stacked cards. Inside its own
+    // <p> it clears in Chromium, WebKit and Firefox, and GitHub keeps the markup.
+    expect(block.endsWith(`</table>\n<p><br clear="all"></p>`)).toBe(true);
+    expect(md.endsWith(`<p><br clear="all"></p>`)).toBe(true);
   });
 
   it("puts Zenn above YouTube", () => {

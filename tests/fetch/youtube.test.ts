@@ -5,8 +5,8 @@ import {
   channelVideosUrl,
   fetchPopularVideos,
   parseFlatPlaylist,
-  pickThumbnail,
   rankByViews,
+  thumbnailUrl,
   ytDlpArgs,
   ytDlpEnv,
 } from "../../src/fetch/youtube";
@@ -14,18 +14,6 @@ import {
 const jaJson = readFileSync("tests/fixtures/yt-dlp-ja.json", "utf8");
 const enJson = readFileSync("tests/fixtures/yt-dlp-en.json", "utf8");
 const CHANNEL = "UCN2JUuxLy8A4jT3RVdN6smw";
-
-/** HEAD for maxres thumbnails: 200 unless `missing` lists the id. */
-function thumbFetch(missing: string[] = []) {
-  const heads: string[] = [];
-  const impl = async (input: string | URL | Request): Promise<Response> => {
-    const url = String(input instanceof Request ? input.url : input);
-    heads.push(url);
-    const id = url.match(/\/vi\/([\w-]{11})\//)?.[1] ?? "";
-    return new Response(null, { status: missing.includes(id) ? 404 : 200 });
-  };
-  return { heads, fetch: impl as typeof fetch };
-}
 
 /** A fake yt-dlp: answers by the `lang=` extractor argument, or fails. */
 function fakeRun(answers: { ja?: string | Error; en?: string | Error }) {
@@ -134,36 +122,22 @@ describe("rankByViews", () => {
   });
 });
 
-describe("pickThumbnail", () => {
-  it("prefers maxresdefault when the HEAD request succeeds", async () => {
-    const { heads, fetch } = thumbFetch();
-    await expect(pickThumbnail("-SE-qu4JSTY", fetch)).resolves.toBe("https://i.ytimg.com/vi/-SE-qu4JSTY/maxresdefault.jpg");
-    expect(heads).toEqual(["https://i.ytimg.com/vi/-SE-qu4JSTY/maxresdefault.jpg"]);
-  });
-
-  it("falls back to mqdefault on 404 or a network error", async () => {
-    await expect(pickThumbnail("-SE-qu4JSTY", thumbFetch(["-SE-qu4JSTY"]).fetch)).resolves.toBe(
-      "https://i.ytimg.com/vi/-SE-qu4JSTY/mqdefault.jpg",
-    );
-    const failing = (async () => {
-      throw new TypeError("fetch failed");
-    }) as unknown as typeof fetch;
-    await expect(pickThumbnail("-SE-qu4JSTY", failing)).resolves.toBe("https://i.ytimg.com/vi/-SE-qu4JSTY/mqdefault.jpg");
+describe("thumbnailUrl", () => {
+  it("uses the 320x180 mqdefault: 16:9 like the player, always present, ~12 KB instead of ~160 KB for maxres", () => {
+    expect(thumbnailUrl("-SE-qu4JSTY")).toBe("https://i.ytimg.com/vi/-SE-qu4JSTY/mqdefault.jpg");
   });
 });
 
 describe("fetchPopularVideos", () => {
   it("returns the three most viewed regular videos with thumbnails", async () => {
     const { calls, run } = fakeRun({ ja: jaJson, en: enJson });
-    const { heads, fetch } = thumbFetch(["8FmOzkeUvJ8"]);
-    const videos = await fetchPopularVideos({ channelId: CHANNEL, run, fetch });
+    const videos = await fetchPopularVideos({ channelId: CHANNEL, run });
     expect(calls.map((args) => args[4])).toEqual(["youtube:lang=ja", "youtube:lang=en"]);
-    expect(heads).toHaveLength(3);
     expect(videos).toEqual([
       expect.objectContaining({
         id: "vwBRNTa6gVY",
         url: "https://www.youtube.com/watch?v=vwBRNTa6gVY",
-        thumbnail: "https://i.ytimg.com/vi/vwBRNTa6gVY/maxresdefault.jpg",
+        thumbnail: "https://i.ytimg.com/vi/vwBRNTa6gVY/mqdefault.jpg",
         viewCount: 71000,
       }),
       expect.objectContaining({ id: "8FmOzkeUvJ8", thumbnail: "https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg" }),
@@ -174,18 +148,18 @@ describe("fetchPopularVideos", () => {
 
   it("still works with English titles when the Japanese listing fails", async () => {
     const { run } = fakeRun({ ja: new Error("blocked"), en: enJson });
-    const videos = await fetchPopularVideos({ channelId: CHANNEL, run, fetch: thumbFetch().fetch, limit: 1 });
+    const videos = await fetchPopularVideos({ channelId: CHANNEL, run, limit: 1 });
     expect(videos.map((v) => v.id)).toEqual(["vwBRNTa6gVY"]);
   });
 
   it("fails when the English listing fails, because only it has every count", async () => {
     const { run } = fakeRun({ ja: jaJson, en: new Error("Sign in to confirm you're not a bot") });
-    await expect(fetchPopularVideos({ channelId: CHANNEL, run, fetch: thumbFetch().fetch })).rejects.toThrow(/not a bot/);
+    await expect(fetchPopularVideos({ channelId: CHANNEL, run })).rejects.toThrow(/not a bot/);
   });
 
   it("fails rather than publishing an empty list", async () => {
     const empty = JSON.stringify({ entries: [] });
     const { run } = fakeRun({ ja: empty, en: empty });
-    await expect(fetchPopularVideos({ channelId: CHANNEL, run, fetch: thumbFetch().fetch })).rejects.toThrow(/no videos/);
+    await expect(fetchPopularVideos({ channelId: CHANNEL, run })).rejects.toThrow(/no videos/);
   });
 });

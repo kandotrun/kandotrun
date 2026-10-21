@@ -1,3 +1,6 @@
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { createFsAssetLoader } from "../src/assets/loader";
 
@@ -33,5 +36,18 @@ describe("photoDataUri", () => {
 
   it("refuses paths outside assets/photos", async () => {
     await expect(loader.photoDataUri("../secret.jpg")).rejects.toThrow();
+  });
+
+  it("refuses to embed a photo that still carries Exif metadata", async () => {
+    const root = mkdtempSync(join(tmpdir(), "loader-"));
+    mkdirSync(join(root, "assets/photos"), { recursive: true });
+    const clean = readFileSync("assets/photos/sticker.jpg");
+    const exif = Buffer.from("Exif\0\0MM\0*", "latin1");
+    const app1 = Buffer.concat([Buffer.from([0xff, 0xe1, 0x00, exif.length + 2]), exif]);
+    // Insert the APP1 segment right after SOI, the way cameras write it.
+    writeFileSync(join(root, "assets/photos/gps.jpg"), Buffer.concat([clean.subarray(0, 2), app1, clean.subarray(2)]));
+    await expect(createFsAssetLoader(root).photoDataUri("assets/photos/gps.jpg")).rejects.toThrow(
+      /assets\/photos\/gps\.jpg: contains Exif\/XMP \(APP1\) metadata/,
+    );
   });
 });

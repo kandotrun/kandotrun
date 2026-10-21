@@ -112,6 +112,12 @@ describe("fetchGitHubSnapshot", () => {
     });
   });
 
+  it("gives every request a timeout so a hung connection cannot stall the workflow", async () => {
+    const { fn, calls } = replayFetch({ body: fixture });
+    await fetchGitHubSnapshot({ login: "kandotrun", token: "t", now: NOW, fetch: fn });
+    expect(calls[0]?.init.signal).toBeInstanceOf(AbortSignal);
+  });
+
   it("returns a snapshot that satisfies the contract", async () => {
     const { fn } = replayFetch({ body: fixture });
     const snapshot = await fetchGitHubSnapshot({ login: "kandotrun", token: "t", now: NOW, fetch: fn });

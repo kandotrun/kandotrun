@@ -5,6 +5,7 @@
 // styles are the final frame, so reduced motion shows the finished readout.
 import type { GitHubSnapshot, LanguageStat } from "../contract/schema";
 import { el, esc, svgDoc } from "./svg";
+import { groupThousands as group } from "./text";
 import { fontStack, type Theme } from "./theme";
 import type { RenderContext } from "./types";
 
@@ -196,6 +197,12 @@ const LEGEND = { x0: 532, x1: 748, y: 130, pitch: 36 };
 /** Hump centers on the tonal axis by rank, chosen so neighbours by size do not stack up. */
 const SLOTS = [0.38, 0.73, 0.15, 0.89, 0.56, 0.04, 0.97] as const;
 const SAMPLES = 120;
+/** Width of the fade at each plot edge (fraction of the axis), so side lobes never run into the clip. */
+const EDGE_FADE = 0.06;
+
+const smoothstep = (u: number) => u * u * (3 - 2 * u);
+/** 0 at the plot edges, 1 inside, with a smooth ramp over EDGE_FADE. */
+const edgeWindow = (t: number) => smoothstep(Math.min(1, t / EDGE_FADE)) * smoothstep(Math.min(1, (1 - t) / EDGE_FADE));
 
 // LCD (right panel)
 const LCD = {
@@ -334,7 +341,7 @@ function humpPath(entry: MixEntry, rank: number, maxShare: number): string {
       0.06 * Math.sin(2 * Math.PI * (f1 * t + p1)) +
       0.035 * Math.sin(2 * Math.PI * (f2 * t + p2)) +
       (rand() - 0.5) * 0.045;
-    raw.push(v * grain);
+    raw.push(v * grain * edgeWindow(t));
   }
   const peak = Math.max(...raw);
   const usable = PLOT.base - PLOT.top;
@@ -384,8 +391,8 @@ export async function renderStats(github: GitHubSnapshot, ctx: RenderContext): P
   const evText = `${ev < 0 ? "-" : "+"}${Math.abs(ev).toFixed(1)} EV`;
 
   const header: TextSpec[] = [
-    { x: PAD, y: 46, text: "HISTOGRAM", size: 28, fill: theme.text, bold: true, spacing: 3 },
-    { x: PAD + 208, y: 46, text: "LANGUAGE MIX BY BYTES", size: 16, fill: theme.muted, spacing: 1.5 },
+    // The README heading above the panel already says HISTOGRAM.
+    { x: PAD, y: 46, text: "LANGUAGE MIX BY BYTES", size: 17, fill: theme.muted, spacing: 1.5 },
     {
       x: W - PAD,
       y: 46,
@@ -678,10 +685,6 @@ function describe(github: GitHubSnapshot, mix: MixEntry[], evText: string): stri
     `公開リポジトリ ${group(t.publicRepos)}、スター ${group(t.stars)}、フォロワー ${group(t.followers)}。`,
     `直近28日のペースは年平均比 ${evText}。更新 ${github.fetchedAt.slice(0, 10)}。`,
   ].join("");
-}
-
-function group(n: number): string {
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function formatBytes(bytes: number): string {

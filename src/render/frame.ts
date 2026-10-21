@@ -7,6 +7,7 @@
 // plain data (layoutFrame), then turned into markup.
 import type { Project } from "../contract/schema";
 import { el, esc, svgDoc } from "./svg";
+import { textWidth } from "./text";
 import { fontStack, type Theme } from "./theme";
 import type { FontRole, RenderContext } from "./types";
 
@@ -64,43 +65,6 @@ const REC_BLINK = 0.3;
 const SCAN_TRAIL = 60;
 
 const EDGE_MARK = "KAN-NINOMIYA";
-
-// ---------------------------------------------------------------------------
-// Text metrics. Advance widths (1/1000 em) of printable ASCII U+0020..U+007E,
-// measured from the bundled LINE Seed JP fonts with HarfBuzz. Japanese glyphs
-// are full width (1 em); JetBrains Mono is 0.6 em throughout.
-// ---------------------------------------------------------------------------
-
-const ASCII_WIDTHS: Record<"display" | "display-bold", readonly number[]> = {
-  display: [
-    345, 282, 499, 837, 645, 1009, 782, 292, 427, 427, 534, 650, 292, 504, 292, 455, 725, 466, 667, 669, 715, 669, 660,
-    629, 695, 658, 292, 292, 650, 650, 650, 603, 1125, 761, 709, 823, 791, 638, 609, 842, 798, 279, 526, 735, 635, 985,
-    791, 875, 672, 890, 703, 622, 689, 771, 753, 1154, 691, 717, 655, 377, 455, 377, 650, 613, 359, 659, 659, 580, 659,
-    583, 391, 659, 626, 249, 249, 577, 249, 978, 626, 630, 659, 659, 405, 500, 420, 623, 572, 854, 548, 571, 533, 455,
-    327, 455, 634,
-  ],
-  "display-bold": [
-    345, 282, 499, 837, 645, 1009, 782, 292, 427, 427, 534, 650, 292, 504, 292, 455, 725, 466, 667, 669, 715, 669, 660,
-    629, 695, 658, 292, 292, 650, 650, 650, 603, 1125, 815, 743, 863, 827, 671, 636, 880, 834, 319, 587, 785, 663, 1027,
-    825, 923, 704, 931, 734, 647, 729, 807, 803, 1202, 738, 770, 671, 377, 455, 377, 650, 613, 392, 694, 694, 626, 694,
-    621, 435, 694, 665, 288, 288, 643, 288, 1020, 665, 676, 694, 694, 451, 530, 464, 665, 630, 915, 608, 629, 558, 455,
-    327, 455, 650,
-  ],
-};
-
-function advance(ch: string, role: FontRole): number {
-  if (role === "mono" || role === "mono-bold") return 0.6;
-  const code = ch.codePointAt(0) ?? 0;
-  const table = ASCII_WIDTHS[role];
-  return code >= 0x20 && code <= 0x7e ? (table[code - 0x20] ?? 600) / 1000 : 1;
-}
-
-/** Rendered width of `text` at `size`, with optional letter-spacing in em. */
-function textWidth(text: string, role: FontRole, size: number, tracking = 0): number {
-  let em = 0;
-  for (const ch of text) em += advance(ch, role) + tracking;
-  return em * size;
-}
 
 // ---------------------------------------------------------------------------
 // Line breaking: at spaces and between Japanese characters, never starting a
@@ -244,15 +208,20 @@ function fitTitle(title: string, zone: number, summaryLines: number): { size: nu
     const lines = wrapGreedy(title, "display-bold", size, TITLE_MAX);
     if (lines.length <= 3 && groupHeight(size, lines.length, summaryLines) <= zone) return { size, lines };
   }
-  return { size: TITLE_MIN, lines: wrapGreedy(title, "display-bold", TITLE_MIN, TITLE_MAX) };
+  throw new Error(`renderFrame: project.title "${title}" is too long for the frame even at ${TITLE_MIN} units in 3 lines; shorten it`);
 }
 
 const CODE_TRACKING = 0.12;
+/** Smallest the project code may shrink to (same floor as the stack chips). */
+const CODE_MIN = CHIP_MIN;
 
 /** The project code at the HUD size, shrunk only if it would reach the status chip. */
 function fitCode(code: string, available: number): { size: number; width: number } {
   const perSize = textWidth(code, "mono", 1, CODE_TRACKING);
   const size = Math.min(HUD.size, Math.floor((available / perSize) * 10) / 10);
+  if (size < CODE_MIN) {
+    throw new Error(`renderFrame: project.code "${code}" is too long to fit beside the status chip at ${CODE_MIN} units; shorten it`);
+  }
   return { size, width: perSize * size };
 }
 

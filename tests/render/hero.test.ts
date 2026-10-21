@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { photos } from "../../data/photos";
 import { profile } from "../../data/profile";
 import { createFsAssetLoader } from "../../src/assets/loader";
-import type { PhotoMeta, Profile } from "../../src/contract/schema";
+import { type PhotoMeta, Photos, type Profile } from "../../src/contract/schema";
 import {
   type Box,
   CORNER_MARK,
@@ -14,6 +14,7 @@ import {
   renderHero,
   SAFE_AREA,
   SEGMENT_SECONDS,
+  suggestFraming,
 } from "../../src/render/hero";
 import { type Theme, themeNames, themes } from "../../src/render/theme";
 import type { FontRole, RenderContext } from "../../src/render/types";
@@ -116,14 +117,6 @@ describe("renderHero: GitHub contract", () => {
       expect(svg).toContain(`viewBox="0 0 1280 640"`);
     }
   });
-
-  it("stays within budget with the real photos and font subsets", async () => {
-    const loader = createFsAssetLoader(process.cwd());
-    for (const name of themeNames) {
-      const svg = await renderHero(input, { theme: themes[name], assets: loader });
-      expectGithubSafeSvg(svg, { maxBytes: BUDGET });
-    }
-  }, 60_000);
 
   it("is deterministic", async () => {
     expect(await render()).toBe(await render());
@@ -242,8 +235,28 @@ describe("renderHero: content", () => {
     const sizes = [...svg.matchAll(/font-size="([\d.]+)"/g)].map((m) => Number(m[1]));
     expect(sizes.length).toBeGreaterThan(10);
     for (const size of sizes) expect(size).toBeGreaterThanOrEqual(MIN_TEXT_SIZE);
-    // Profile labels stay legible at 360 px: about 20% larger than the old 18-unit chips.
-    expect(layoutHero(profile, photos).name.chipSize).toBeGreaterThanOrEqual(21);
+  });
+
+  it("cuts the print's caption areas out as one paper shape, with no photo sliver or hairline between them", async () => {
+    const zones = layoutHero(profile, photos).zones;
+    // Also a shorter name, which leaves the name zone well short of the readout.
+    const short = { ...profile, name: "Kan N", roleLine: "builder", detections: profile.detections.slice(0, 1) };
+    expect(layoutHero(short, photos).zones[0]!.x1).toBeLessThan(layoutHero(short, photos).zones[1]!.x0);
+    for (const who of [profile, short]) {
+      const svg = await render(themes.light, { profile: who, photos });
+      const paper = [...svg.matchAll(new RegExp(`<path d="((?:M[^"]*?Z)+)" fill="${themes.light.bg}"/>`, "g"))].map((m) => m[1]!);
+      expect(paper, "one paper path").toHaveLength(1);
+      const rects = [...paper[0]!.matchAll(/M([\d.-]+) ([\d.-]+)H([\d.-]+)V([\d.-]+)H[\d.-]+Z/g)].map((m) => m.slice(1, 5).map(Number));
+      expect(rects).toHaveLength(2);
+      const [[, , nameRight, nameBottom], [exifLeft, exifTop, exifRight]] = rects as [number[], number[]];
+      expect(exifLeft, "readout paper reaches under the name paper").toBeLessThanOrEqual(nameRight! - 1);
+      expect(exifRight).toBe(W);
+      expect(nameBottom).toBe(H);
+      expect(exifTop).toBeGreaterThanOrEqual(rects[0]![1]!);
+    }
+    const r = (v: number) => String(Math.round(v * 100) / 100);
+    const svg = await render(themes.light);
+    for (const z of zones) expect(svg).not.toContain(`<rect x="${r(z.x0)}" y="${r(z.y0)}" width="${r(z.x1 - z.x0)}"`);
   });
 
   it("handles a single photo", async () => {
@@ -254,17 +267,19 @@ describe("renderHero: content", () => {
 });
 
 describe("renderHero: animation", () => {
-  it("keeps every looping animation on one shared cycle of 15-21 s", async () => {
-    const svg = await render();
-    const cycle = SEGMENT_SECONDS * photos.length;
-    expect(cycle).toBeGreaterThanOrEqual(15);
-    expect(cycle).toBeLessThanOrEqual(21);
-    const loops = animations(svg).filter((a) => a.decl.includes("infinite"));
-    expect(loops.length).toBeGreaterThan(10);
-    for (const { decl } of loops) {
-      const seconds = Number(/(\d+(?:\.\d+)?)s/.exec(decl)?.[1]);
-      expect(Number.isFinite(seconds), decl).toBe(true);
-      expect((cycle * 1000) % Math.round(seconds * 1000), `${decl} does not divide the ${cycle}s cycle`).toBe(0);
+  it("keeps every looping animation on one shared cycle of SEGMENT_SECONDS per photo", async () => {
+    for (const count of [1, 2, 3, 4]) {
+      const sequence = Array.from({ length: count }, (_, i) => ({ ...(photos[i % photos.length] as PhotoMeta), id: `seq-${i}` }));
+      const svg = await render(themes.dark, { profile, photos: sequence });
+      const cycle = SEGMENT_SECONDS * count;
+      const loops = animations(svg).filter((a) => a.decl.includes("infinite"));
+      expect(loops.length).toBeGreaterThan(5);
+      expect(loops.some((a) => a.decl.includes(` ${cycle}s `)), `${count} photos loop over ${cycle}s`).toBe(true);
+      for (const { decl } of loops) {
+        const seconds = Number(/(\d+(?:\.\d+)?)s/.exec(decl)?.[1]);
+        expect(Number.isFinite(seconds), decl).toBe(true);
+        expect((cycle * 1000) % Math.round(seconds * 1000), `${decl} does not divide the ${cycle}s cycle`).toBe(0);
+      }
     }
   });
 
@@ -365,17 +380,35 @@ describe("renderHero: animation", () => {
 describe("layoutHero", () => {
   const layout = layoutHero(profile, photos);
 
-  it("uses the hand-placed framing for every photo in data/photos.ts (and covers the frame)", () => {
-    layout.framings.forEach((f, k) => {
-      const photo = photos[k] as PhotoMeta;
-      expect(f.source, `${photo.id} fell back to the automatic framing`).toBe("hand");
+  it("places each photo with the framing it carries", () => {
+    const moved: PhotoMeta = { ...(photos[1] as PhotoMeta), framing: { ...(photos[1] as PhotoMeta).framing, ox: -150 } };
+    expect(layoutHero(profile, [moved]).framings[0]).toEqual(moved.framing);
+  });
+
+  it("refuses a framing that leaves part of the frame empty, naming the photo", () => {
+    const base = photos[1] as PhotoMeta;
+    const short: PhotoMeta = { ...base, id: "gap-probe", framing: { ...base.framing, ox: 10 } };
+    expect(() => layoutHero(profile, [short])).toThrow(/data\/photos\.ts framing for "gap-probe" does not cover/);
+    // A tilt starts dy lower, so the bottom edge must still cover the frame then.
+    const tower = photos.find((p) => p.framing.motion.kind === "tilt") as PhotoMeta;
+    const lifted: PhotoMeta = { ...tower, id: "tilt-probe", framing: { ...tower.framing, motion: { kind: "tilt", dy: 2000 } } };
+    expect(() => layoutHero(profile, [lifted])).toThrow(/"tilt-probe"/);
+  });
+
+  it("suggests a centred framing that covers the frame, for drafting a new photo", () => {
+    for (const [width, height] of [
+      [1400, 932],
+      [932, 1400],
+      [3000, 600],
+    ] as const) {
+      const draft: PhotoMeta = { ...(photos[0] as PhotoMeta), id: "draft", width, height };
+      const f = suggestFraming(draft);
       expect(f.ox).toBeLessThanOrEqual(0);
       expect(f.oy).toBeLessThanOrEqual(0);
-      expect(f.ox + photo.width * f.scale).toBeGreaterThanOrEqual(W);
-      expect(f.oy + photo.height * f.scale).toBeGreaterThanOrEqual(H);
-    });
-    const unknown = { ...(photos[1] as PhotoMeta), id: "somewhere-new" };
-    expect(layoutHero(profile, [unknown]).framings[0]?.source).toBe("auto");
+      expect(f.ox + width * f.scale).toBeGreaterThanOrEqual(W - 1e-9);
+      expect(f.oy + height * f.scale).toBeGreaterThanOrEqual(H - 1e-9);
+      expect(() => layoutHero(profile, [{ ...draft, framing: f }])).not.toThrow();
+    }
   });
 
   it("keeps the caption zones apart and inside the canvas", () => {
@@ -421,8 +454,9 @@ describe("layoutHero", () => {
       expect(chip.y + chip.h).toBeCloseTo(box.y0, 5);
       expect(chip.x).toBeGreaterThanOrEqual(box.x0);
       expect(chip.x + chip.w).toBeLessThanOrEqual(box.x1);
+      // Chips abut, so the outer boxes' top strokes behind the label row never peek through a gap.
       const prev = layout.name.chips[i - 1];
-      if (prev) expect(chip.x).toBeGreaterThanOrEqual(prev.x + prev.w);
+      if (prev) expect(chip.x).toBeCloseTo(prev.x + prev.w, 5);
     });
   });
 
@@ -458,9 +492,35 @@ describe("renderHero: photo budget", () => {
     await expect(render(themes.dark, { profile, photos: many })).rejects.toThrow(/at most 4 photos/);
   });
 
-  it("refuses a photo too large for the hero budget", async () => {
+  it("refuses a photo too large for the hero budget, naming it", async () => {
     const loader = assets();
     loader.photoDataUri = async () => `data:image/jpeg;base64,${"A".repeat(MAX_PHOTO_URI_BYTES)}`;
-    await expect(renderHero(input, ctx(themes.dark, loader))).rejects.toThrow(/architecture.*KB/);
+    const probe = { profile, photos: [{ ...(photos[0] as PhotoMeta), id: "oversize-probe" }] };
+    await expect(renderHero(probe, ctx(themes.dark, loader))).rejects.toThrow(/oversize-probe.*KB/);
   });
+});
+
+// Checks on the hand-edited data rather than on renderer behaviour: when one of
+// these fails, edit data/profile.ts or data/photos.ts, not the renderer.
+describe("data/profile.ts and data/photos.ts fit the hero", () => {
+  it("lists 1-4 photos with unique ids, each with a framing", () => {
+    const parsed = Photos.safeParse(photos);
+    expect(parsed.success, parsed.error?.message).toBe(true);
+    const dup = Photos.safeParse([photos[0], photos[0]]);
+    expect(dup.success).toBe(false);
+  });
+
+  it("keeps the profile detection labels at 21 units or more (legible at 360 px)", () => {
+    const { chipSize } = layoutHero(profile, photos).name;
+    const labels = profile.detections.map((d) => d.label).join(", ");
+    expect(chipSize, `profile.detections (${labels}) shrink to ${chipSize} units; shorten a label or drop one`).toBeGreaterThanOrEqual(21);
+  });
+
+  it("frames every photo and stays within the 900 KB budget with the real photos and font subsets", async () => {
+    const loader = createFsAssetLoader(process.cwd());
+    for (const name of themeNames) {
+      const svg = await renderHero(input, { theme: themes[name], assets: loader });
+      expectGithubSafeSvg(svg, { maxBytes: BUDGET });
+    }
+  }, 60_000);
 });

@@ -38,7 +38,8 @@ function mostViewedFirst(videos: readonly VideoItem[]): VideoItem[] {
 
 /** YouTube's Japanese style: "9,539回再生" under 10,000, then "7.1万回再生" / "4万回再生". */
 export function formatViews(count: number): string {
-  if (count < 10_000) return `${count.toLocaleString("en-US")}回再生`;
+  // Thousands separator by hand: toLocaleString depends on the host's ICU data.
+  if (count < 10_000) return `${String(count).replace(/\B(?=(\d{3})+$)/g, ",")}回再生`;
   return `${(Math.round(count / 1_000) / 10).toString()}万回再生`;
 }
 
@@ -79,10 +80,15 @@ function videoCard(video: VideoItem): string {
   return [`<table align="left">`, "<tr>", cell, "</tr>", "</table>"].join("\n");
 }
 
-/** One HTML block (no blank lines inside); `clear` stops the next section wrapping around the cards. */
+/**
+ * One HTML block (no blank lines inside); the clear stops the next section
+ * wrapping around the cards. It must sit in its own <p>: a bare <br clear> does
+ * not clear the floated tables in WebKit (Safari, every iOS browser), whose next
+ * heading then squeezed in beside the stacked cards.
+ */
 function youtubeCards(videos: readonly VideoItem[]): string {
   const cards = mostViewedFirst(videos).slice(0, MAX_VIDEOS).map(videoCard);
-  return [...cards, `<br clear="all">`].join("\n");
+  return [...cards, `<p><br clear="all"></p>`].join("\n");
 }
 
 export function renderMedia(feeds: FeedSnapshot): string {

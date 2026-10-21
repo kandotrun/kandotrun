@@ -15,6 +15,8 @@ export const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
 export const FALLBACK_LANGUAGE_COLOR = "#8b949e";
 
 const DAY_MS = 86_400_000;
+/** Per request, so a hung connection cannot stall the daily workflow. */
+const TIMEOUT_MS = 15_000;
 
 // ---------------------------------------------------------------------------
 // GraphQL documents
@@ -233,6 +235,7 @@ async function graphql(
       "user-agent": "kandotrun-profile",
     },
     body: JSON.stringify({ query, variables }),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
   });
   const text = await response.text();
   if (!response.ok) {

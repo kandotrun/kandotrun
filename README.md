@@ -18,21 +18,12 @@
 <a href="https://giga-site.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/01-giga-site-dark.svg"><img src="assets/generated/frames/01-giga-site-light.svg" alt="ギガサイト便 — AI 生成 HTML を認証つき URL で共有" width="266"></picture></a>
 <a href="https://github.com/kandotrun/afterimage-app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/02-afterimage-app-dark.svg"><img src="assets/generated/frames/02-afterimage-app-light.svg" alt="Afterimage — 動画を検索できる iOS ライフログ" width="266"></picture></a>
 <a href="https://github.com/kandotrun/kururi-ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/03-kururi-ai-dark.svg"><img src="assets/generated/frames/03-kururi-ai-light.svg" alt="Kururi AI — 横向き・逆さの写真を正す CLI" width="266"></picture></a>
-</p>
-
-<p align="center">
 <a href="https://txt.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/04-txt-dark.svg"><img src="assets/generated/frames/04-txt-light.svg" alt="txt — パスキーで暗号化した 1 枚のテキスト" width="266"></picture></a>
 <a href="https://human-required-blog.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/05-human-required-blog-dark.svg"><img src="assets/generated/frames/05-human-required-blog-light.svg" alt="Human Required Blog — World ID で人間だけが読めるブログ" width="266"></picture></a>
 <a href="https://github.com/mukumo/tamago-muku"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/06-tamago-muku-dark.svg"><img src="assets/generated/frames/06-tamago-muku-light.svg" alt="tamago-muku — 携帯ゲーム機で暮らす Rust 製ペット" width="266"></picture></a>
-</p>
-
-<p align="center">
 <a href="https://teslacam.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/07-teslacam-viewer-dark.svg"><img src="assets/generated/frames/07-teslacam-viewer-light.svg" alt="TeslaCam Viewer — 6 カメラ同期再生と合成動画の書き出し" width="266"></picture></a>
 <a href="https://send.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/08-send-dark.svg"><img src="assets/generated/frames/08-send-light.svg" alt="send — 端末で暗号化して渡すファイル転送" width="266"></picture></a>
 <a href="https://github.com/kandotrun/hermes-video-understanding"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/09-hermes-video-understanding-dark.svg"><img src="assets/generated/frames/09-hermes-video-understanding-light.svg" alt="Hermes Video Understanding — 映像解析と文字起こしで動画を理解" width="266"></picture></a>
-</p>
-
-<p align="center">
 <a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/10-x-mcp-dark.svg"><img src="assets/generated/frames/10-x-mcp-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
 <a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/11-jrm-dark.svg"><img src="assets/generated/frames/11-jrm-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
 <a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/12-supercamera-dark.svg"><img src="assets/generated/frames/12-supercamera-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
@@ -73,12 +64,11 @@
 <td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/maxresdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,544回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
 </tr>
 </table>
-<br clear="all">
+<p><br clear="all"></p>
 
 ### SENSORS <sub>センサー</sub>
 
-<a href="https://github.com/kandotrun/oura-arena"><img src="https://oura-arena.vercel.app/api/card/kan.svg" alt="Health Status"></a>
-<a href="https://github.com/kandotrun/hermes-symphony-token-card"><img src="https://raw.githubusercontent.com/kandotrun/hermes-symphony-token-card/main/public/hermes.svg?v=badge-20260521" alt="Hermes tokens"></a>
+<a href="https://github.com/kandotrun/oura-arena"><img src="https://oura-arena.vercel.app/api/card/kan.svg" alt="Health Status"></a> <a href="https://github.com/kandotrun/hermes-symphony-token-card"><img src="https://raw.githubusercontent.com/kandotrun/hermes-symphony-token-card/main/public/hermes.svg?v=badge-20260521" alt="Hermes tokens"></a>
 
 ### WORK <sub>最近つくっているもの</sub>
 

@@ -193,12 +193,28 @@ describe("renderStats", () => {
 
   it("labels the histogram and every legend entry with its share", async () => {
     const svg = await renderStats(snapshot(), ctx());
-    expect(svg).toContain(">HISTOGRAM<");
+    // The README heading already says HISTOGRAM; the panel only says what is plotted.
+    expect(svg).toContain(">LANGUAGE MIX BY BYTES<");
+    expect(svg).not.toContain(">HISTOGRAM<");
     for (const m of languageMix(snapshot().languages)) {
       expect(svg).toContain(`>${m.name}<`);
       expect(svg).toContain(`>${formatShare(m.share)}<`);
     }
     expect(svg).not.toContain(">HTML<");
+  });
+
+  it("brings every hump down to the baseline before the plot edges, so none is cut off", async () => {
+    for (const data of [GitHubSnapshot.parse(snapshotJson), snapshot()]) {
+      const svg = await renderStats(data, ctx());
+      const paths = [...svg.matchAll(/<path id="h\d+" d="M([^"]+)Z"/g)];
+      expect(paths.length).toBeGreaterThan(0);
+      const points = paths.map((m) => m[1]!.split(" ").map((p) => p.split(",").map(Number) as [number, number]));
+      const base = Math.max(...points.flat().map(([, y]) => y));
+      for (const pts of points) {
+        const curve = pts.slice(1, -1);
+        for (const [x, y] of [curve[0]!, curve.at(-1)!]) expect(base - y, `hump edge at x=${x}`).toBeLessThanOrEqual(1);
+      }
+    }
   });
 
   it("draws the real totals as LCD digits, in reading order", async () => {

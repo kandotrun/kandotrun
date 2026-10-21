@@ -95,6 +95,29 @@ export const Profile = z.object({
 });
 export type Profile = z.infer<typeof Profile>;
 
+/**
+ * Where a hero photo sits in the 1280x640 frame, placed by eye. The renderer
+ * checks that it covers the frame for the whole move and throws naming the photo
+ * if not; `suggestFraming()` in src/render/hero.ts drafts a centred one.
+ */
+export const Framing = z.object({
+  /** Photo pixels → canvas units. */
+  scale: z.number().positive(),
+  /** Canvas position of the photo's top-left corner in the settled state. */
+  ox: z.number(),
+  oy: z.number(),
+  /** Subject bounds in photo pixels: x0, y0, x1, y1. */
+  subject: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+  /** Where the AF brackets lock, in canvas units. A push zooms around it. */
+  af: z.tuple([z.number(), z.number()]),
+  /** Ken Burns move: tilt starts `dy` lower and rises; push zooms in by `zoom`. */
+  motion: z.discriminatedUnion("kind", [
+    z.object({ kind: z.literal("tilt"), dy: z.number() }),
+    z.object({ kind: z.literal("push"), zoom: z.number().positive() }),
+  ]),
+});
+export type Framing = z.infer<typeof Framing>;
+
 /** Hero photo. Metadata is copied by hand from EXIF; files are stored EXIF-stripped. */
 export const PhotoMeta = z.object({
   id: Slug,
@@ -111,8 +134,17 @@ export const PhotoMeta = z.object({
   iso: z.number().int().positive().nullable(),
   /** Detection label for the photo's subject, e.g. "building". */
   subject: z.string().regex(/^[a-z_]+$/),
+  framing: Framing,
 });
 export type PhotoMeta = z.infer<typeof PhotoMeta>;
+
+/** The hero's photo sequence: 1-4 photos (the 900 KB budget), unique ids. */
+export const Photos = z
+  .array(PhotoMeta)
+  .min(1)
+  .max(4)
+  .refine((photos) => new Set(photos.map((p) => p.id)).size === photos.length, "photo ids must be unique");
+export type Photos = z.infer<typeof Photos>;
 
 // ---------------------------------------------------------------------------
 // Snapshots (written by src/fetch, committed so builds are reproducible)

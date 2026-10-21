@@ -12,6 +12,10 @@ install:
 snapshot:
     pnpm run snapshot
 
+# Fail when data/snapshot/github.json is more than a week old (the workflow's last step)
+check-snapshot:
+    pnpm exec tsx src/cli/check-snapshot.ts
+
 # Render every SVG and README.md from data/
 build:
     pnpm run build
@@ -25,7 +29,7 @@ typecheck:
 lint:
     pnpm exec ast-grep scan
 
-# Render README through the GitHub Markdown API and screenshot it in dark and light
+# Render README through the GitHub Markdown API; check it in Chromium and WebKit at 846/766/311 px, dark and light
 e2e: build
     pnpm run e2e
 
@@ -34,6 +38,16 @@ shoot svg *args:
     pnpm exec tsx src/cli/shoot.ts {{svg}} {{args}}
 
 check: typecheck lint test
+
+# Install a git pre-commit hook that runs `just check` (photo metadata, privacy, purity rules, tests)
+hooks:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    hook="$(git rev-parse --git-path hooks)/pre-commit"
+    mkdir -p "$(dirname "$hook")"
+    printf '#!/bin/sh\nexec just check\n' > "$hook"
+    chmod +x "$hook"
+    echo "installed $hook"
 
 # What the scheduled workflow runs
 update: snapshot build check

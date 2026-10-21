@@ -4,13 +4,12 @@
 // twice: with lang=ja for the Japanese titles and exact counts under 10,000, and
 // with lang=en because yt-dlp cannot parse counts written as "7.1万" — the English
 // listing has every count, rounded above 10,000. Parsing and ranking are pure;
-// the process runner and `fetch` are injected so everything is testable offline.
+// the process runner is injected so everything is testable offline.
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import type { VideoItem } from "../contract/schema";
 
 export const DEFAULT_LIMIT = 3;
-const TIMEOUT_MS = 15_000;
 const YT_DLP_TIMEOUT_MS = 120_000;
 
 /** Runs yt-dlp with the given arguments and resolves with its stdout. */
@@ -99,36 +98,24 @@ export function rankByViews(ja: readonly FlatEntry[], en: readonly FlatEntry[], 
   }));
 }
 
-export function thumbnailUrl(id: string, quality: "maxresdefault" | "mqdefault"): string {
-  return `https://i.ytimg.com/vi/${id}/${quality}.jpg`;
-}
-
 /**
- * maxresdefault (1280×720) only exists for some uploads; YouTube answers 404
- * otherwise. mqdefault (320×180) always exists and, unlike hqdefault, is 16:9
- * without letterboxing, so both choices share an aspect ratio in the README.
+ * The 320x180 mqdefault thumbnail. Cards show it 219 px wide; it always exists
+ * and, unlike hqdefault/sddefault, is 16:9 without letterbox bars. maxresdefault
+ * (1280x720, ~160 KB each through GitHub's camo proxy, which does not recompress)
+ * cost ~0.5 MB per README view for a slightly sharper card on 2x screens.
  */
-export async function pickThumbnail(id: string, fetchImpl: typeof fetch): Promise<string> {
-  const maxres = thumbnailUrl(id, "maxresdefault");
-  try {
-    const response = await fetchImpl(maxres, { method: "HEAD", signal: AbortSignal.timeout(TIMEOUT_MS) });
-    if (response.ok) return maxres;
-  } catch {
-    // Network trouble is not worth failing the snapshot over.
-  }
-  return thumbnailUrl(id, "mqdefault");
+export function thumbnailUrl(id: string): string {
+  return `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
 }
 
 export interface FetchPopularOptions {
   channelId: string;
   limit?: number;
   run?: YtDlpRunner;
-  fetch?: typeof fetch;
 }
 
 export async function fetchPopularVideos(opts: FetchPopularOptions): Promise<VideoItem[]> {
   const run = opts.run ?? runYtDlp;
-  const fetchImpl = opts.fetch ?? globalThis.fetch;
   const url = channelVideosUrl(opts.channelId);
 
   // The Japanese listing only improves titles; the English one is required.
@@ -137,5 +124,5 @@ export async function fetchPopularVideos(opts: FetchPopularOptions): Promise<Vid
 
   const ranked = rankByViews(ja, en, opts.limit ?? DEFAULT_LIMIT);
   if (ranked.length === 0) throw new Error(`fetchPopularVideos: no videos with a view count at ${url}`);
-  return Promise.all(ranked.map(async (video) => ({ ...video, thumbnail: await pickThumbnail(video.id, fetchImpl) })));
+  return ranked.map((video) => ({ ...video, thumbnail: thumbnailUrl(video.id) }));
 }
