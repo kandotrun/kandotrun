@@ -2,7 +2,7 @@
 import type { FeedSnapshot, OssEntry, Profile } from "../contract/schema";
 import { esc } from "../render/svg";
 import { renderLatest } from "./latest";
-import { type GeneratedName, generatedPath } from "./paths";
+import { type FrameRef, type GeneratedName, generatedPath } from "./paths";
 
 export interface ReadmeInput {
   profile: Profile;
@@ -11,9 +11,9 @@ export interface ReadmeInput {
 
 const FRAME_WIDTH = 266;
 
-function picture(name: GeneratedName, alt: string, opts: { index?: number; width?: string | number } = {}): string {
-  const dark = generatedPath(name, "dark", opts.index);
-  const light = generatedPath(name, "light", opts.index);
+function picture(name: GeneratedName, alt: string, opts: { frame?: FrameRef; width?: string | number } = {}): string {
+  const dark = generatedPath(name, "dark", opts.frame);
+  const light = generatedPath(name, "light", opts.frame);
   return [
     "<picture>",
     `<source media="(prefers-color-scheme: dark)" srcset="${dark}">`,
@@ -34,7 +34,7 @@ function ossLine(entry: OssEntry): string {
 function contactSheet(profile: Profile): string {
   const cells = profile.featured.map(
     (project, index) =>
-      `<a href="${project.url}">${picture("frame", `${project.title} — ${project.summary}`, { index, width: FRAME_WIDTH })}</a>`,
+      `<a href="${project.url}">${picture("frame", `${project.title} — ${project.summary}`, { frame: { index, id: project.id }, width: FRAME_WIDTH })}</a>`,
   );
   const rows: string[] = [];
   for (let i = 0; i < cells.length; i += 3) {

@@ -26,9 +26,9 @@ const feeds: FeedSnapshot = {
 
 const readme = renderReadme({ profile, feeds });
 
-function pictureFor(name: Parameters<typeof generatedPath>[0], ...rest: [number?]) {
-  const dark = generatedPath(name, "dark", ...rest);
-  const light = generatedPath(name, "light", ...rest);
+function pictureFor(name: Parameters<typeof generatedPath>[0], frame?: { index: number; id: string }) {
+  const dark = generatedPath(name, "dark", frame);
+  const light = generatedPath(name, "light", frame);
   return { dark, light };
 }
 
@@ -47,7 +47,7 @@ describe("renderReadme", () => {
 
   it("links every featured project to its frame card, three per row", () => {
     profile.featured.forEach((project, index) => {
-      const { dark, light } = pictureFor("frame", index);
+      const { dark, light } = pictureFor("frame", { index, id: project.id });
       expect(readme).toContain(`<a href="${project.url}">`);
       expect(readme).toContain(`srcset="${dark}"`);
       expect(readme).toContain(`src="${light}"`);

@@ -41,7 +41,7 @@ for (const name of themeNames) {
   await write(generatedPath("contrib", name), await renderContrib(github, ctx));
   for (const [index, project] of profile.featured.entries()) {
     const svg = await renderFrame({ project, index, total: profile.featured.length }, ctx);
-    await write(generatedPath("frame", name, index), svg);
+    await write(generatedPath("frame", name, { index, id: project.id }), svg);
   }
 }
 

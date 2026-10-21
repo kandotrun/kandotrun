@@ -15,27 +15,27 @@
 ### CONTACT SHEET <sub>つくったもの</sub>
 
 <p align="center">
-<a href="https://giga-site.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/01-dark.svg"><img src="assets/generated/frames/01-light.svg" alt="ギガサイト便 — AI 生成 HTML を認証つき URL で共有" width="266"></picture></a>
-<a href="https://github.com/kandotrun/afterimage-app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/02-dark.svg"><img src="assets/generated/frames/02-light.svg" alt="Afterimage — 動画を検索できる iOS ライフログ" width="266"></picture></a>
-<a href="https://github.com/kandotrun/kururi-ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/03-dark.svg"><img src="assets/generated/frames/03-light.svg" alt="Kururi AI — 横向き・逆さの写真を正す CLI" width="266"></picture></a>
+<a href="https://giga-site.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/01-giga-site-dark.svg"><img src="assets/generated/frames/01-giga-site-light.svg" alt="ギガサイト便 — AI 生成 HTML を認証つき URL で共有" width="266"></picture></a>
+<a href="https://github.com/kandotrun/afterimage-app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/02-afterimage-app-dark.svg"><img src="assets/generated/frames/02-afterimage-app-light.svg" alt="Afterimage — 動画を検索できる iOS ライフログ" width="266"></picture></a>
+<a href="https://github.com/kandotrun/kururi-ai"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/03-kururi-ai-dark.svg"><img src="assets/generated/frames/03-kururi-ai-light.svg" alt="Kururi AI — 横向き・逆さの写真を正す CLI" width="266"></picture></a>
 </p>
 
 <p align="center">
-<a href="https://txt.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/04-dark.svg"><img src="assets/generated/frames/04-light.svg" alt="txt — パスキーで暗号化した 1 枚のテキスト" width="266"></picture></a>
-<a href="https://human-required-blog.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/05-dark.svg"><img src="assets/generated/frames/05-light.svg" alt="Human Required Blog — World ID で人間だけが読めるブログ" width="266"></picture></a>
-<a href="https://github.com/mukumo/tamago-muku"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/06-dark.svg"><img src="assets/generated/frames/06-light.svg" alt="tamago-muku — 携帯ゲーム機で暮らす Rust 製ペット" width="266"></picture></a>
+<a href="https://txt.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/04-txt-dark.svg"><img src="assets/generated/frames/04-txt-light.svg" alt="txt — パスキーで暗号化した 1 枚のテキスト" width="266"></picture></a>
+<a href="https://human-required-blog.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/05-human-required-blog-dark.svg"><img src="assets/generated/frames/05-human-required-blog-light.svg" alt="Human Required Blog — World ID で人間だけが読めるブログ" width="266"></picture></a>
+<a href="https://github.com/mukumo/tamago-muku"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/06-tamago-muku-dark.svg"><img src="assets/generated/frames/06-tamago-muku-light.svg" alt="tamago-muku — 携帯ゲーム機で暮らす Rust 製ペット" width="266"></picture></a>
 </p>
 
 <p align="center">
-<a href="https://teslacam.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/07-dark.svg"><img src="assets/generated/frames/07-light.svg" alt="TeslaCam Viewer — 6 カメラ同期再生と合成動画の書き出し" width="266"></picture></a>
-<a href="https://send.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/08-dark.svg"><img src="assets/generated/frames/08-light.svg" alt="send — 端末で暗号化して渡すファイル転送" width="266"></picture></a>
-<a href="https://github.com/kandotrun/hermes-video-understanding"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/09-dark.svg"><img src="assets/generated/frames/09-light.svg" alt="Hermes Video Understanding — 映像解析と文字起こしで動画を理解" width="266"></picture></a>
+<a href="https://teslacam.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/07-teslacam-viewer-dark.svg"><img src="assets/generated/frames/07-teslacam-viewer-light.svg" alt="TeslaCam Viewer — 6 カメラ同期再生と合成動画の書き出し" width="266"></picture></a>
+<a href="https://send.2-38.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/08-send-dark.svg"><img src="assets/generated/frames/08-send-light.svg" alt="send — 端末で暗号化して渡すファイル転送" width="266"></picture></a>
+<a href="https://github.com/kandotrun/hermes-video-understanding"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/09-hermes-video-understanding-dark.svg"><img src="assets/generated/frames/09-hermes-video-understanding-light.svg" alt="Hermes Video Understanding — 映像解析と文字起こしで動画を理解" width="266"></picture></a>
 </p>
 
 <p align="center">
-<a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/10-dark.svg"><img src="assets/generated/frames/10-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
-<a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/11-dark.svg"><img src="assets/generated/frames/11-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
-<a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/12-dark.svg"><img src="assets/generated/frames/12-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
+<a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/10-x-mcp-dark.svg"><img src="assets/generated/frames/10-x-mcp-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
+<a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/11-jrm-dark.svg"><img src="assets/generated/frames/11-jrm-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
+<a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/12-supercamera-dark.svg"><img src="assets/generated/frames/12-supercamera-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
 </p>
 
 ### HISTOGRAM <sub>使っている言語と活動量</sub>
