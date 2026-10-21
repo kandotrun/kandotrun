@@ -1,0 +1,12 @@
+id: no-nondeterminism-in-render
+language: TypeScript
+severity: error
+message: Renderers must be deterministic. Pass the current time in through the input instead.
+files:
+  - src/render/**
+  - src/readme/**
+rule:
+  any:
+    - pattern: Date.now()
+    - pattern: new Date()
+    - pattern: Math.random()

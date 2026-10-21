@@ -1,0 +1,414 @@
+{
+  "data": {
+    "user": {
+      "login": "kandotrun",
+      "followers": {
+        "totalCount": 45
+      },
+      "repositories": {
+        "totalCount": 8,
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "Y3Vyc29yOnYyOpK0"
+        },
+        "nodes": [
+          {
+            "name": "afterimage",
+            "isArchived": true,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 96242,
+                  "node": {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  }
+                },
+                {
+                  "size": 70158,
+                  "node": {
+                    "name": "Python",
+                    "color": "#3572A5"
+                  }
+                },
+                {
+                  "size": 1296,
+                  "node": {
+                    "name": "Dockerfile",
+                    "color": "#384d54"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "ai-slop",
+            "isArchived": false,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 18935943,
+                  "node": {
+                    "name": "TypeScript",
+                    "color": "#3178c6"
+                  }
+                },
+                {
+                  "size": 104902,
+                  "node": {
+                    "name": "CSS",
+                    "color": "#663399"
+                  }
+                },
+                {
+                  "size": 11554,
+                  "node": {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  }
+                },
+                {
+                  "size": 2115,
+                  "node": {
+                    "name": "HTML",
+                    "color": "#e34c26"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "hermes-video-understanding",
+            "isArchived": false,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 34426,
+                  "node": {
+                    "name": "Python",
+                    "color": "#3572A5"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "kururi-ai",
+            "isArchived": false,
+            "stargazerCount": 1,
+            "languages": {
+              "edges": [
+                {
+                  "size": 99195,
+                  "node": {
+                    "name": "Python",
+                    "color": "#3572A5"
+                  }
+                },
+                {
+                  "size": 43635,
+                  "node": {
+                    "name": "Rust",
+                    "color": "#dea584"
+                  }
+                },
+                {
+                  "size": 24048,
+                  "node": {
+                    "name": "TypeScript",
+                    "color": "#3178c6"
+                  }
+                },
+                {
+                  "size": 11964,
+                  "node": {
+                    "name": "CSS",
+                    "color": "#663399"
+                  }
+                },
+                {
+                  "size": 851,
+                  "node": {
+                    "name": "Shell",
+                    "color": "#89e051"
+                  }
+                },
+                {
+                  "size": 743,
+                  "node": {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  }
+                },
+                {
+                  "size": 496,
+                  "node": {
+                    "name": "HTML",
+                    "color": "#e34c26"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "teslacam-viewer",
+            "isArchived": false,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 401651,
+                  "node": {
+                    "name": "TypeScript",
+                    "color": "#3178c6"
+                  }
+                },
+                {
+                  "size": 48738,
+                  "node": {
+                    "name": "CSS",
+                    "color": "#663399"
+                  }
+                },
+                {
+                  "size": 3173,
+                  "node": {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  }
+                },
+                {
+                  "size": 635,
+                  "node": {
+                    "name": "HTML",
+                    "color": "#e34c26"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "Test-Project-Next",
+            "isArchived": false,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": []
+            }
+          },
+          {
+            "name": "traceglass",
+            "isArchived": false,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 79581,
+                  "node": {
+                    "name": "Rust",
+                    "color": "#dea584"
+                  }
+                },
+                {
+                  "size": 6964,
+                  "node": {
+                    "name": "TypeScript",
+                    "color": "#3178c6"
+                  }
+                },
+                {
+                  "size": 6400,
+                  "node": {
+                    "name": "JavaScript",
+                    "color": "#f1e05a"
+                  }
+                },
+                {
+                  "size": 3312,
+                  "node": {
+                    "name": "CSS",
+                    "color": "#663399"
+                  }
+                },
+                {
+                  "size": 3309,
+                  "node": {
+                    "name": "HTML",
+                    "color": "#e34c26"
+                  }
+                },
+                {
+                  "size": 826,
+                  "node": {
+                    "name": "Shell",
+                    "color": "#89e051"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "yolo-hud-overlay",
+            "isArchived": true,
+            "stargazerCount": 0,
+            "languages": {
+              "edges": [
+                {
+                  "size": 44240,
+                  "node": {
+                    "name": "Python",
+                    "color": "#3572A5"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "contributionsCollection": {
+        "totalCommitContributions": 3553,
+        "totalPullRequestContributions": 227,
+        "totalIssueContributions": 45,
+        "totalPullRequestReviewContributions": 4,
+        "contributionCalendar": {
+          "totalContributions": 1563,
+          "weeks": [
+            {
+              "contributionDays": [
+                {
+                  "date": "2025-10-21",
+                  "contributionCount": 29,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2025-10-22",
+                  "contributionCount": 15,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2025-10-23",
+                  "contributionCount": 6,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2025-10-24",
+                  "contributionCount": 14,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2025-10-25",
+                  "contributionCount": 0,
+                  "contributionLevel": "NONE"
+                }
+              ]
+            },
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-05-10",
+                  "contributionCount": 0,
+                  "contributionLevel": "NONE"
+                },
+                {
+                  "date": "2026-05-11",
+                  "contributionCount": 29,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-05-12",
+                  "contributionCount": 99,
+                  "contributionLevel": "SECOND_QUARTILE"
+                },
+                {
+                  "date": "2026-05-13",
+                  "contributionCount": 124,
+                  "contributionLevel": "SECOND_QUARTILE"
+                },
+                {
+                  "date": "2026-05-14",
+                  "contributionCount": 239,
+                  "contributionLevel": "THIRD_QUARTILE"
+                },
+                {
+                  "date": "2026-05-15",
+                  "contributionCount": 95,
+                  "contributionLevel": "SECOND_QUARTILE"
+                },
+                {
+                  "date": "2026-05-16",
+                  "contributionCount": 0,
+                  "contributionLevel": "NONE"
+                }
+              ]
+            },
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-05-17",
+                  "contributionCount": 29,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-05-18",
+                  "contributionCount": 35,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-05-19",
+                  "contributionCount": 70,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-05-20",
+                  "contributionCount": 24,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-05-21",
+                  "contributionCount": 370,
+                  "contributionLevel": "FOURTH_QUARTILE"
+                },
+                {
+                  "date": "2026-05-22",
+                  "contributionCount": 139,
+                  "contributionLevel": "SECOND_QUARTILE"
+                },
+                {
+                  "date": "2026-05-23",
+                  "contributionCount": 137,
+                  "contributionLevel": "SECOND_QUARTILE"
+                }
+              ]
+            },
+            {
+              "contributionDays": [
+                {
+                  "date": "2026-10-18",
+                  "contributionCount": 0,
+                  "contributionLevel": "NONE"
+                },
+                {
+                  "date": "2026-10-19",
+                  "contributionCount": 0,
+                  "contributionLevel": "NONE"
+                },
+                {
+                  "date": "2026-10-20",
+                  "contributionCount": 88,
+                  "contributionLevel": "FIRST_QUARTILE"
+                },
+                {
+                  "date": "2026-10-21",
+                  "contributionCount": 21,
+                  "contributionLevel": "FIRST_QUARTILE"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

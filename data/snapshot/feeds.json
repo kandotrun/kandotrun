@@ -1,0 +1,53 @@
+{
+  "fetchedAt": "2026-10-21T03:45:06.762Z",
+  "zenn": [
+    {
+      "title": "AI生成HTMLを「信頼せず」に配信する ― Cloudflare Workers + Hono で作る認証付きホスティングの設計",
+      "url": "https://zenn.dev/nixo/articles/8f5807a6cefd36",
+      "publishedAt": "2026-06-22T02:04:09Z"
+    },
+    {
+      "title": "【国内最強(俺調べ)】「辛いラーメン」を「つらいラーメン」と読むTTSにキレて、日本語読み推定モデルを自作した【1268問ベンチマーク】",
+      "url": "https://zenn.dev/nixo/articles/3139042d4034f2",
+      "publishedAt": "2026-06-11T16:13:54Z"
+    },
+    {
+      "title": "【2026・夏最新版】皆様にGoogle CloudでのRAG・Embeddingの最強を、お伝えしたかった。",
+      "url": "https://zenn.dev/fp16/articles/c3a080a68b3b59",
+      "publishedAt": "2026-05-27T09:00:09Z"
+    },
+    {
+      "title": "【調子いい!!】令和のスクレイピングは、これが良いと思う。【Perplexity Agent API】",
+      "url": "https://zenn.dev/fp16/articles/58ae408cdd5539",
+      "publishedAt": "2026-05-26T07:49:09Z"
+    },
+    {
+      "title": "【2026年版】日本語RAGのEmbeddingモデル、結局どれが最強なのか？6構成で2000問ベンチマークした",
+      "url": "https://zenn.dev/fp16/articles/aa48dcae23974e",
+      "publishedAt": "2026-02-12T10:51:11Z"
+    }
+  ],
+  "youtube": [
+    {
+      "title": "Osmo Pocket 4Pが良すぎて、X-M5を売ることにした",
+      "url": "https://www.youtube.com/watch?v=-SE-qu4JSTY",
+      "publishedAt": "2026-09-07T22:00:24Z",
+      "id": "-SE-qu4JSTY",
+      "thumbnail": "https://i.ytimg.com/vi/-SE-qu4JSTY/maxresdefault.jpg"
+    },
+    {
+      "title": "真夏36℃のTesla、ドッグモードは効く？1時間半後の車内温度を実測",
+      "url": "https://www.youtube.com/watch?v=2KjUQdEJOZQ",
+      "publishedAt": "2026-09-05T22:00:20Z",
+      "id": "2KjUQdEJOZQ",
+      "thumbnail": "https://i.ytimg.com/vi/2KjUQdEJOZQ/maxresdefault.jpg"
+    },
+    {
+      "title": "90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい",
+      "url": "https://www.youtube.com/watch?v=rRWcNvxJvfk",
+      "publishedAt": "2026-09-03T22:00:27Z",
+      "id": "rRWcNvxJvfk",
+      "thumbnail": "https://i.ytimg.com/vi/rRWcNvxJvfk/maxresdefault.jpg"
+    }
+  ]
+}

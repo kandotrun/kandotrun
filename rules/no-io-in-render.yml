@@ -1,0 +1,15 @@
+id: no-io-in-render
+language: TypeScript
+severity: error
+message: Renderers must stay pure. Do file and network I/O in src/assets, src/fetch or src/cli and inject the result.
+files:
+  - src/render/**
+  - src/readme/**
+rule:
+  any:
+    - pattern: fetch($$$)
+    - kind: string_fragment
+      regex: ^node:(fs|fs/promises|child_process|net|http|https)$
+      inside:
+        kind: import_statement
+        stopBy: end

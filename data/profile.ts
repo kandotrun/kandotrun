@@ -1,0 +1,273 @@
+import type { Profile } from "../src/contract/schema";
+
+// Public facts only: taken from the previous profile README, kan.run and public
+// repositories. Titles, company roles, age and family details stay out on purpose.
+export const profile: Profile = {
+  name: "Kan Ninomiya",
+  nameJa: "二宮 貫",
+  handle: "kandotrun",
+  location: "Hiroshima, JP",
+  roleLine: "software engineer & product builder",
+  intro:
+    "広島を拠点に、AI エージェント、Web サービス、開発者向けツール、写真・映像・音を扱うソフトウェアをつくっています。思いついたものをすばやく形にして、企画から実装、公開、運用まで自分で進めるのが好きです。",
+  detections: [
+    { label: "software_engineer", confidence: 0.99 },
+    { label: "product_builder", confidence: 0.97 },
+    { label: "photographer", confidence: 0.94 },
+  ],
+  now: [
+    "YouTube 向けの自動編集 AI と映像制作",
+    "動画の映像解析と音声文字起こしを組み合わせる AI ツール",
+    "TeslaCam 映像の整理・同期再生・合成動画出力",
+    "DGX Spark を使ったローカル LLM の実用検証",
+    "AI エージェントと小さな公開プロダクト",
+  ],
+  recent: [
+    "[ギガサイト便](https://giga-site.com/) — HTML や zip をすぐに共有サイトとして公開できるサービス",
+    "[{TRAC}](https://apps.apple.com/us/app/trac-travel-memories/id6755861910) — 旅の記憶を残す iPhone アプリ",
+    "月間約 500 万 PV 規模のクローズドな Web サービス群",
+    "AI エージェント、ユーティリティ、インターネットツールまわりの OSS",
+  ],
+  products: [
+    {
+      name: "Tashika",
+      summary: "日本語の技術口述や文字起こしを補正する API",
+      demo: "https://voice.2-38.com/demo",
+    },
+    {
+      name: "JRM (Japanese Reading Model)",
+      summary: "日本語の読み・発音・TTS 前処理のためのクローズドソースモデル",
+      demo: "https://jrm-demo.2-38.com/",
+    },
+    {
+      name: "Voice2Agent",
+      summary: "音声メモを Hermes、Claude Code、Codex、ChatGPT へ渡しやすいプロンプトに整えるデモ",
+      demo: "https://voice2agent.2-38.com/",
+    },
+  ],
+  featured: [
+    {
+      id: "giga-site",
+      title: "ギガサイト便",
+      code: "GIGA-SITE",
+      summary: "AI 生成 HTML を認証つき URL で共有",
+      url: "https://giga-site.com/",
+      repo: "https://github.com/kandotrun/ai-slop",
+      stack: ["TypeScript", "Hono", "Cloudflare"],
+      kind: "product",
+      status: "LIVE",
+    },
+    {
+      id: "teslacam-viewer",
+      title: "TeslaCam Viewer",
+      code: "TESLACAM",
+      summary: "6 カメラ同期再生と合成動画の書き出し",
+      url: "https://teslacam.2-38.com/",
+      repo: "https://github.com/kandotrun/teslacam-viewer",
+      stack: ["React", "TypeScript", "Workers"],
+      kind: "product",
+      status: "BETA",
+    },
+    {
+      id: "hermes-video-understanding",
+      title: "Hermes Video Understanding",
+      code: "HERMES-VU",
+      summary: "映像解析と文字起こしで動画を理解",
+      url: "https://github.com/kandotrun/hermes-video-understanding",
+      repo: "https://github.com/kandotrun/hermes-video-understanding",
+      stack: ["Python", "Vision", "STT"],
+      kind: "oss",
+      status: "v1.0.0",
+    },
+    {
+      id: "x-mcp",
+      title: "x-mcp",
+      code: "X-MCP",
+      summary: "X を検索・取得する read-only MCP",
+      url: "https://github.com/kandotrun/x-mcp",
+      repo: "https://github.com/kandotrun/x-mcp",
+      stack: ["TypeScript", "Hono", "MCP"],
+      kind: "oss",
+      status: "LIVE",
+    },
+    {
+      id: "jrm",
+      title: "Japanese Reading Model",
+      code: "JRM",
+      summary: "日本語の読み・発音・TTS 前処理モデル",
+      url: "https://jrm-demo.2-38.com/",
+      stack: ["Python", "PyTorch", "TTS"],
+      kind: "research",
+      status: "DEMO",
+    },
+    {
+      id: "supercamera",
+      title: "SuperCamera",
+      code: "SUPERCAMERA",
+      summary: "独自 USB 内視鏡カメラを MJPEG 配信",
+      url: "https://github.com/kandotrun/supercamera",
+      repo: "https://github.com/kandotrun/supercamera",
+      stack: ["C++", "libusb", "Linux"],
+      kind: "oss",
+      status: "OSS",
+    },
+  ],
+  oss: [
+    {
+      title: "AI / エージェント",
+      entries: [
+        {
+          name: "reframe",
+          url: "https://github.com/kandotrun/reframe",
+          summary: "変化を追える根拠と意思決定のワークスペース。PyTorch で学習し、ブラウザの WASM で推論",
+          extra: { label: "Live", url: "https://reframe.2-38.com" },
+        },
+        {
+          name: "kururi-ai",
+          url: "https://github.com/kandotrun/kururi-ai",
+          summary: "Kururi AI CLI",
+          extra: { label: "DeepWiki", url: "https://deepwiki.com/kandotrun/kururi-ai" },
+        },
+        {
+          name: "r1-hermes",
+          url: "https://github.com/kandotrun/r1-hermes",
+          summary: "Rabbit R1 から Hermes Agent を安全に使うためのゲートウェイアダプター",
+        },
+        {
+          name: "human-required-blog",
+          url: "https://github.com/kandotrun/human-required-blog",
+          summary: "World ID 認証で人間だけが読めるブログ",
+        },
+        {
+          name: "gemini-indoor-localization",
+          url: "https://github.com/kandotrun/gemini-indoor-localization",
+          summary: "Gemini Embedding 2 を使った参照画像ベースの屋内位置推定",
+        },
+      ],
+    },
+    {
+      title: "プライバシー / 暗号化",
+      entries: [
+        {
+          name: "send",
+          url: "https://github.com/kandotrun/send",
+          summary: "中身を預けない、端末で暗号化するファイル・文章転送サービス",
+          extra: { label: "Live", url: "https://send.2-38.com" },
+        },
+        {
+          name: "txt",
+          url: "https://github.com/kandotrun/txt",
+          summary: "メールアドレスなしで、パスキーで暗号化された 1 枚のテキストを読み書きできるアプリ",
+        },
+        {
+          name: "life-atlas",
+          url: "https://github.com/kandotrun/life-atlas",
+          summary: "Google Timeline のエクスポートを地図とタイムラインでローカル閲覧するダッシュボード",
+        },
+        {
+          name: "afterimage-app",
+          url: "https://github.com/kandotrun/afterimage-app",
+          summary: "プライバシー優先の iOS ライフログ。Hono バックエンドと非公開 R2 メディア",
+        },
+      ],
+    },
+    {
+      title: "ツール / アプリ",
+      entries: [
+        {
+          name: "traceglass",
+          url: "https://github.com/kandotrun/traceglass",
+          summary: "Rust、GPUI Kit、WebAssembly でつくったブラウザイベントエクスプローラー",
+          extra: { label: "Live", url: "https://traceglass.2-38.com" },
+        },
+        {
+          name: "tapo-care-backup",
+          url: "https://github.com/kandotrun/tapo-care-backup",
+          summary: "自分の Tapo Care クラウド録画をバックアップする非公式 CLI / watcher",
+        },
+        {
+          name: "koreka",
+          url: "https://github.com/kandotrun/koreka",
+          summary: "次に何をするかを決めるリアルタイムカード投票 PWA",
+        },
+        {
+          name: "kaiwa",
+          url: "https://github.com/kandotrun/kaiwa",
+          summary: "Cloudflare Workers と WebRTC でつくるプログラマブルネットワーク",
+        },
+      ],
+    },
+  ],
+  archived: [
+    {
+      name: "oura-arena",
+      url: "https://github.com/kandotrun/oura-arena",
+      summary: "Oura Ring API を使ったチーム向けウェルネスダッシュボード",
+    },
+    {
+      name: "ai-chat-export-chrome-extension",
+      url: "https://github.com/kandotrun/ai-chat-export-chrome-extension",
+      summary: "ChatGPT、Claude、Gemini の会話をローカルで Markdown に書き出す Chrome 拡張",
+    },
+    {
+      name: "hermes-symphony-token-card",
+      url: "https://github.com/kandotrun/hermes-symphony-token-card",
+      summary: "Hermes Agent と Symphony のトークン使用量を README に貼れるバッジ",
+    },
+    {
+      name: "dgx-spark-deepseek-v4-flash",
+      url: "https://github.com/kandotrun/dgx-spark-deepseek-v4-flash",
+      summary: "DGX Spark 1 台で DeepSeek V4 Flash を動かす vLLM 構成と実測",
+    },
+    {
+      name: "yolo-hud-overlay",
+      url: "https://github.com/kandotrun/yolo-hud-overlay",
+      summary: "動画にテーマ切り替え可能な YOLO HUD を重ねるツール",
+    },
+    {
+      name: "daihugou",
+      url: "https://github.com/kandotrun/daihugou",
+      summary: "Cloudflare Workers + Durable Objects で動くオンライン大富豪",
+    },
+    {
+      name: "nandaro",
+      url: "https://github.com/kandotrun/nandaro",
+      summary: "画像をサーバーに送らず、ブラウザだけでリサイズ・再圧縮するツール",
+    },
+    {
+      name: "raycast-clipboard-extension-its-free",
+      url: "https://github.com/kandotrun/raycast-clipboard-extension-its-free",
+      summary: "macOS + Raycast 向けの無料・無制限クリップボード履歴",
+    },
+    {
+      name: "pochimo",
+      url: "https://github.com/kandotrun/pochimo",
+      summary: "ブラウザカメラの記録を AI で日記にする実験的なペット日記アプリ",
+    },
+    {
+      name: "openclaw-supermemory",
+      url: "https://github.com/kandotrun/openclaw-supermemory",
+      summary: "エージェントの応答前に supermemory から文脈を呼び出す OpenClaw プラグイン",
+    },
+  ],
+  badges: [
+    {
+      alt: "Health Status",
+      src: "https://oura-arena.vercel.app/api/card/kan.svg",
+      href: "https://github.com/kandotrun/oura-arena",
+    },
+    {
+      alt: "Hermes tokens",
+      src: "https://raw.githubusercontent.com/kandotrun/hermes-symphony-token-card/main/public/hermes.svg?v=badge-20260521",
+      href: "https://github.com/kandotrun/hermes-symphony-token-card",
+    },
+  ],
+  links: [
+    { label: "Website", url: "https://kan.run" },
+    { label: "X", url: "https://x.com/kandotrun" },
+    { label: "YouTube", url: "https://www.youtube.com/@2-38com" },
+    { label: "Zenn", url: "https://zenn.dev/nixo" },
+  ],
+  zennUser: "nixo",
+  youtubeChannelId: "UCN2JUuxLy8A4jT3RVdN6smw",
+};
