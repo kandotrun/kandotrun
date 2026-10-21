@@ -51,17 +51,17 @@
 
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY"><img src="https://i.ytimg.com/vi/vwBRNTa6gVY/maxresdefault.jpg" width="219" alt="Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】"></a><br><sub>▶ 7.1万回再生</sub><br><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY">Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY"><img src="https://i.ytimg.com/vi/vwBRNTa6gVY/mqdefault.jpg" width="219" alt="Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】"></a><br><sub>▶ 7.1万回再生</sub><br><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY">Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】</a></td>
 </tr>
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8"><img src="https://i.ytimg.com/vi/8FmOzkeUvJ8/maxresdefault.jpg" width="219" alt="3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた"></a><br><sub>▶ 4万回再生</sub><br><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8">3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8"><img src="https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg" width="219" alt="3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた"></a><br><sub>▶ 4万回再生</sub><br><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8">3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた</a></td>
 </tr>
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/maxresdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,544回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,544回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
 </tr>
 </table>
 <p><br clear="all"></p>
