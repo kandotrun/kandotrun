@@ -1,31 +1,36 @@
 {
-  "fetchedAt": "2026-10-22T00:00:35.521Z",
+  "fetchedAt": "2026-10-22T23:59:37.468Z",
   "login": "kandotrun",
   "totals": {
     "publicRepos": 72,
     "stars": 16,
     "followers": 45,
-    "commits": 3692,
-    "pullRequests": 233,
+    "commits": 3754,
+    "pullRequests": 239,
     "issues": 45,
     "reviews": 4,
-    "contributions": 14171
+    "contributions": 14371
   },
   "languages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "bytes": 22552027
+      "bytes": 23850311
     },
     {
       "name": "Rust",
       "color": "#dea584",
-      "bytes": 1473521
+      "bytes": 1655337
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "bytes": 1113609
+      "bytes": 1255698
+    },
+    {
+      "name": "HTML",
+      "color": "#e34c26",
+      "bytes": 1193055
     },
     {
       "name": "Swift",
@@ -35,22 +40,17 @@
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "bytes": 368942
+      "bytes": 545349
     },
     {
       "name": "CSS",
       "color": "#663399",
-      "bytes": 335828
-    },
-    {
-      "name": "HTML",
-      "color": "#e34c26",
-      "bytes": 69297
+      "bytes": 365247
     },
     {
       "name": "Shell",
       "color": "#89e051",
-      "bytes": 42721
+      "bytes": 49677
     },
     {
       "name": "C++",
@@ -65,7 +65,7 @@
     {
       "name": "Just",
       "color": "#384d54",
-      "bytes": 3924
+      "bytes": 5108
     },
     {
       "name": "Dockerfile",
@@ -74,7 +74,7 @@
     }
   ],
   "contributions": {
-    "total": 14171,
+    "total": 14371,
     "weeks": [
       {
         "days": [
@@ -2108,13 +2108,13 @@
           },
           {
             "date": "2026-10-21",
-            "count": 194,
+            "count": 201,
             "level": 3
           },
           {
             "date": "2026-10-22",
-            "count": 0,
-            "level": 0
+            "count": 193,
+            "level": 3
           }
         ]
       }
