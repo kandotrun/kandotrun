@@ -61,7 +61,7 @@
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,659回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,695回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
 </tr>
 </table>
 <p><br clear="all"></p>
