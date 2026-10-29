@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-28T00:31:36.122Z",
+  "fetchedAt": "2026-10-29T00:55:02.628Z",
   "zenn": [
     {
       "title": "AI生成HTMLを「信頼せず」に配信する ― Cloudflare Workers + Hono で作る認証付きホスティングの設計",
@@ -40,14 +40,14 @@
       "title": "3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた",
       "url": "https://www.youtube.com/watch?v=8FmOzkeUvJ8",
       "thumbnail": "https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg",
-      "viewCount": 41000
+      "viewCount": 42000
     },
     {
       "id": "rRWcNvxJvfk",
       "title": "90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい",
       "url": "https://www.youtube.com/watch?v=rRWcNvxJvfk",
       "thumbnail": "https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg",
-      "viewCount": 9752
+      "viewCount": 9773
     }
   ]
 }
