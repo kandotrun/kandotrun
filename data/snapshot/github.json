@@ -1,15 +1,15 @@
 {
-  "fetchedAt": "2026-10-31T00:47:20.180Z",
+  "fetchedAt": "2026-11-01T00:07:01.446Z",
   "login": "kandotrun",
   "totals": {
     "publicRepos": 74,
     "stars": 16,
-    "followers": 45,
+    "followers": 44,
     "commits": 3845,
     "pullRequests": 238,
     "issues": 45,
     "reviews": 4,
-    "contributions": 14833
+    "contributions": 14806
   },
   "languages": [
     {
@@ -74,22 +74,8 @@
     }
   ],
   "contributions": {
-    "total": 14833,
+    "total": 14806,
     "weeks": [
-      {
-        "days": [
-          {
-            "date": "2025-10-31",
-            "count": 28,
-            "level": 1
-          },
-          {
-            "date": "2025-11-01",
-            "count": 0,
-            "level": 0
-          }
-        ]
-      },
       {
         "days": [
           {
@@ -2113,8 +2099,17 @@
           },
           {
             "date": "2026-10-31",
-            "count": 5,
+            "count": 6,
             "level": 1
+          }
+        ]
+      },
+      {
+        "days": [
+          {
+            "date": "2026-11-01",
+            "count": 0,
+            "level": 0
           }
         ]
       }
