@@ -27,6 +27,9 @@
 <a href="https://github.com/kandotrun/x-mcp"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/10-x-mcp-dark.svg"><img src="assets/generated/frames/10-x-mcp-light.svg" alt="x-mcp — X を検索・取得する read-only MCP" width="266"></picture></a>
 <a href="https://jrm-demo.2-38.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/11-jrm-dark.svg"><img src="assets/generated/frames/11-jrm-light.svg" alt="Japanese Reading Model — 日本語の読み・発音・TTS 前処理モデル" width="266"></picture></a>
 <a href="https://github.com/kandotrun/supercamera"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/12-supercamera-dark.svg"><img src="assets/generated/frames/12-supercamera-light.svg" alt="SuperCamera — 独自 USB 内視鏡カメラを MJPEG 配信" width="266"></picture></a>
+<a href="https://github.com/kandotrun/r2-mountain"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/13-r2-mountain-dark.svg"><img src="assets/generated/frames/13-r2-mountain-light.svg" alt="R2 Mountain — R2 を Finder にマウントする Mac アプリ" width="266"></picture></a>
+<a href="https://github.com/kandotrun/voiceinput"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/14-voiceinput-dark.svg"><img src="assets/generated/frames/14-voiceinput-light.svg" alt="voiceinput — 右 Option で話して挿入する Mac 音声入力" width="266"></picture></a>
+<a href="https://github.com/kandotrun/by-human"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/15-by-human-dark.svg"><img src="assets/generated/frames/15-by-human-light.svg" alt="BY (HUMAN) — OpenClaw の 8 か月前に作った自律 AI エージェント" width="266"></picture></a>
 </p>
 
 ### HISTOGRAM <sub>使っている言語と活動量</sub>
@@ -61,7 +64,7 @@
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,914回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk"><img src="https://i.ytimg.com/vi/rRWcNvxJvfk/mqdefault.jpg" width="219" alt="90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい"></a><br><sub>▶ 9,919回再生</sub><br><a href="https://www.youtube.com/watch?v=rRWcNvxJvfk">90万円のDGX SparkでDeepSeek V4を動かした結論。MacBookでいい</a></td>
 </tr>
 </table>
 <p><br clear="all"></p>
