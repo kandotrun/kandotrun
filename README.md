@@ -59,7 +59,7 @@
 </table>
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8"><img src="https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg" width="219" alt="3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた"></a><br><sub>▶ 4.4万回再生</sub><br><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8">3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8"><img src="https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg" width="219" alt="3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた"></a><br><sub>▶ 4.5万回再生</sub><br><a href="https://www.youtube.com/watch?v=8FmOzkeUvJ8">3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた</a></td>
 </tr>
 </table>
 <table align="left">

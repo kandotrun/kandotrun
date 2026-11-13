@@ -1,21 +1,21 @@
 {
-  "fetchedAt": "2026-11-12T02:16:10.447Z",
+  "fetchedAt": "2026-11-13T01:49:33.932Z",
   "login": "kandotrun",
   "totals": {
     "publicRepos": 79,
     "stars": 17,
     "followers": 46,
-    "commits": 3903,
+    "commits": 3912,
     "pullRequests": 250,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15630
+    "contributions": 15644
   },
   "languages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "bytes": 24081362
+      "bytes": 24194116
     },
     {
       "name": "Python",
@@ -40,7 +40,7 @@
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "bytes": 690068
+      "bytes": 686078
     },
     {
       "name": "CSS",
@@ -50,7 +50,7 @@
     {
       "name": "Shell",
       "color": "#89e051",
-      "bytes": 63049
+      "bytes": 63894
     },
     {
       "name": "C++",
@@ -74,15 +74,10 @@
     }
   ],
   "contributions": {
-    "total": 15630,
+    "total": 15644,
     "weeks": [
       {
         "days": [
-          {
-            "date": "2025-11-12",
-            "count": 34,
-            "level": 1
-          },
           {
             "date": "2025-11-13",
             "count": 10,
@@ -163,7 +158,7 @@
           },
           {
             "date": "2025-11-27",
-            "count": 24,
+            "count": 23,
             "level": 1
           },
           {
@@ -2113,8 +2108,13 @@
           },
           {
             "date": "2026-11-12",
-            "count": 91,
+            "count": 138,
             "level": 2
+          },
+          {
+            "date": "2026-11-13",
+            "count": 2,
+            "level": 1
           }
         ]
       }
