@@ -54,7 +54,7 @@
 
 <table align="left">
 <tr>
-<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY"><img src="https://i.ytimg.com/vi/vwBRNTa6gVY/mqdefault.jpg" width="219" alt="Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】"></a><br><sub>▶ 7.4万回再生</sub><br><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY">Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】</a></td>
+<td width="246" valign="top"><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY"><img src="https://i.ytimg.com/vi/vwBRNTa6gVY/mqdefault.jpg" width="219" alt="Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】"></a><br><sub>▶ 7.5万回再生</sub><br><a href="https://www.youtube.com/watch?v=vwBRNTa6gVY">Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】</a></td>
 </tr>
 </table>
 <table align="left">

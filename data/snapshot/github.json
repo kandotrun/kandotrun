@@ -1,15 +1,15 @@
 {
-  "fetchedAt": "2026-11-16T01:00:21.424Z",
+  "fetchedAt": "2026-11-17T03:41:16.493Z",
   "login": "kandotrun",
   "totals": {
-    "publicRepos": 79,
+    "publicRepos": 81,
     "stars": 17,
     "followers": 46,
-    "commits": 3912,
-    "pullRequests": 250,
+    "commits": 3923,
+    "pullRequests": 257,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15739
+    "contributions": 15791
   },
   "languages": [
     {
@@ -20,7 +20,7 @@
     {
       "name": "Python",
       "color": "#3572A5",
-      "bytes": 2121622
+      "bytes": 2500250
     },
     {
       "name": "Rust",
@@ -28,19 +28,19 @@
       "bytes": 1804632
     },
     {
+      "name": "Swift",
+      "color": "#F05138",
+      "bytes": 1567230
+    },
+    {
       "name": "HTML",
       "color": "#e34c26",
       "bytes": 1313204
     },
     {
-      "name": "Swift",
-      "color": "#F05138",
-      "bytes": 1289110
-    },
-    {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "bytes": 686078
+      "bytes": 701421
     },
     {
       "name": "CSS",
@@ -70,19 +70,14 @@
     {
       "name": "Dockerfile",
       "color": "#384d54",
-      "bytes": 1567
+      "bytes": 2324
     }
   ],
   "contributions": {
-    "total": 15739,
+    "total": 15791,
     "weeks": [
       {
         "days": [
-          {
-            "date": "2025-11-16",
-            "count": 3,
-            "level": 1
-          },
           {
             "date": "2025-11-17",
             "count": 16,
@@ -144,12 +139,12 @@
           },
           {
             "date": "2025-11-28",
-            "count": 78,
+            "count": 77,
             "level": 1
           },
           {
             "date": "2025-11-29",
-            "count": 34,
+            "count": 33,
             "level": 1
           }
         ]
@@ -2108,13 +2103,18 @@
         "days": [
           {
             "date": "2026-11-15",
-            "count": 13,
+            "count": 17,
             "level": 1
           },
           {
             "date": "2026-11-16",
-            "count": 0,
-            "level": 0
+            "count": 51,
+            "level": 1
+          },
+          {
+            "date": "2026-11-17",
+            "count": 2,
+            "level": 1
           }
         ]
       }
