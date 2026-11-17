@@ -210,6 +210,28 @@ export const profile: Profile = {
       kind: "oss",
       status: "2025.03",
     },
+    {
+      id: "we-are-agents",
+      title: "We Are Agents",
+      code: "WE-ARE-AGENTS",
+      summary: "自前のリレーで AI エージェントをつなぐ",
+      url: "https://github.com/kandotrun/we-are-agents",
+      repo: "https://github.com/kandotrun/we-are-agents",
+      stack: ["Python", "MCP", "iroh"],
+      kind: "oss",
+      status: "OSS",
+    },
+    {
+      id: "oh-my-openclaw-ios",
+      title: "Oh My OpenClaw",
+      code: "OPENCLAW-IOS",
+      summary: "OpenClaw と話すネイティブ iOS アプリ",
+      url: "https://github.com/kandotrun/oh-my-openclaw-ios",
+      repo: "https://github.com/kandotrun/oh-my-openclaw-ios",
+      stack: ["Swift", "SwiftUI", "WebSocket"],
+      kind: "product",
+      status: "iOS",
+    },
   ],
   oss: [
     {

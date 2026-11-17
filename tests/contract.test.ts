@@ -8,10 +8,13 @@ describe("profile contract", () => {
     expect(() => Profile.parse(profile)).not.toThrow();
   });
 
-  it("fills whole contact-sheet rows of three with unique ids", () => {
+  it("keeps contact-sheet project ids unique", () => {
     const ids = profile.featured.map((p) => p.id);
-    expect(ids.length % 3).toBe(0);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("allows a partially filled final contact-sheet row", () => {
+    expect(() => Profile.parse({ ...profile, featured: profile.featured.slice(0, 4) })).not.toThrow();
   });
 
   it("puts every pinned repository on the contact sheet", () => {

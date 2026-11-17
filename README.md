@@ -30,6 +30,8 @@
 <a href="https://github.com/kandotrun/r2-mountain"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/13-r2-mountain-dark.svg"><img src="assets/generated/frames/13-r2-mountain-light.svg" alt="R2 Mountain — R2 を Finder にマウントする Mac アプリ" width="266"></picture></a>
 <a href="https://github.com/kandotrun/voiceinput"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/14-voiceinput-dark.svg"><img src="assets/generated/frames/14-voiceinput-light.svg" alt="voiceinput — 右 Option で話して挿入する Mac 音声入力" width="266"></picture></a>
 <a href="https://github.com/kandotrun/by-human"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/15-by-human-dark.svg"><img src="assets/generated/frames/15-by-human-light.svg" alt="BY (HUMAN) — OpenClaw の 8 か月前に作った自律 AI エージェント" width="266"></picture></a>
+<a href="https://github.com/kandotrun/we-are-agents"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/16-we-are-agents-dark.svg"><img src="assets/generated/frames/16-we-are-agents-light.svg" alt="We Are Agents — 自前のリレーで AI エージェントをつなぐ" width="266"></picture></a>
+<a href="https://github.com/kandotrun/oh-my-openclaw-ios"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/generated/frames/17-oh-my-openclaw-ios-dark.svg"><img src="assets/generated/frames/17-oh-my-openclaw-ios-light.svg" alt="Oh My OpenClaw — OpenClaw と話すネイティブ iOS アプリ" width="266"></picture></a>
 </p>
 
 ### HISTOGRAM <sub>使っている言語と活動量</sub>
