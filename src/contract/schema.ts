@@ -79,12 +79,8 @@ export const Profile = z.object({
   /** "最近つくっているもの" bullets; inline Markdown allowed. */
   recent: z.array(z.string().min(1)).min(1),
   products: z.array(Product),
-  /** Contact-sheet frames, shown three per row: the length must fill whole rows. */
-  featured: z
-    .array(Project)
-    .min(3)
-    .max(15)
-    .refine((projects) => projects.length % 3 === 0, "featured must fill whole rows of three"),
+  /** Contact-sheet frames wrap to fit the README width; the last row may be short. */
+  featured: z.array(Project).min(3).max(18),
   oss: z.array(OssCategory).min(1),
   archived: z.array(OssEntry),
   badges: z.array(Badge),
