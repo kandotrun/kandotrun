@@ -1,36 +1,36 @@
 {
-  "fetchedAt": "2026-11-17T03:52:29.827Z",
+  "fetchedAt": "2026-11-18T02:53:56.582Z",
   "login": "kandotrun",
   "totals": {
     "publicRepos": 81,
     "stars": 17,
     "followers": 46,
-    "commits": 3925,
-    "pullRequests": 259,
+    "commits": 3940,
+    "pullRequests": 269,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15795
+    "contributions": 15834
   },
   "languages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "bytes": 24194116
+      "bytes": 24194886
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "bytes": 2500250
+      "bytes": 2500753
     },
     {
       "name": "Rust",
       "color": "#dea584",
-      "bytes": 1804632
+      "bytes": 2127914
     },
     {
       "name": "Swift",
       "color": "#F05138",
-      "bytes": 1567230
+      "bytes": 1717686
     },
     {
       "name": "HTML",
@@ -74,15 +74,10 @@
     }
   ],
   "contributions": {
-    "total": 15795,
+    "total": 15834,
     "weeks": [
       {
         "days": [
-          {
-            "date": "2025-11-17",
-            "count": 16,
-            "level": 1
-          },
           {
             "date": "2025-11-18",
             "count": 13,
@@ -2113,7 +2108,12 @@
           },
           {
             "date": "2026-11-17",
-            "count": 6,
+            "count": 59,
+            "level": 1
+          },
+          {
+            "date": "2026-11-18",
+            "count": 2,
             "level": 1
           }
         ]

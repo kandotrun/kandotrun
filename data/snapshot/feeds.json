@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-17T03:52:29.827Z",
+  "fetchedAt": "2026-11-18T02:53:56.582Z",
   "zenn": [
     {
       "title": "AI生成HTMLを「信頼せず」に配信する ― Cloudflare Workers + Hono で作る認証付きホスティングの設計",
@@ -40,7 +40,7 @@
       "title": "3万円 vs 100万円 vs 300万円｜ローカルLLMはいくらあれば快適に動くのか検証してみた",
       "url": "https://www.youtube.com/watch?v=8FmOzkeUvJ8",
       "thumbnail": "https://i.ytimg.com/vi/8FmOzkeUvJ8/mqdefault.jpg",
-      "viewCount": 45000
+      "viewCount": 46000
     },
     {
       "id": "rRWcNvxJvfk",
