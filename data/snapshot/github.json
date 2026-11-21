@@ -1,21 +1,21 @@
 {
-  "fetchedAt": "2026-11-20T02:18:35.739Z",
+  "fetchedAt": "2026-11-21T02:12:24.793Z",
   "login": "kandotrun",
   "totals": {
-    "publicRepos": 81,
+    "publicRepos": 82,
     "stars": 17,
     "followers": 46,
-    "commits": 4069,
-    "pullRequests": 283,
+    "commits": 4077,
+    "pullRequests": 289,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15980
+    "contributions": 15994
   },
   "languages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "bytes": 24194886
+      "bytes": 24195704
     },
     {
       "name": "Rust",
@@ -35,17 +35,17 @@
     {
       "name": "HTML",
       "color": "#e34c26",
-      "bytes": 1321876
+      "bytes": 1322842
     },
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "bytes": 924342
+      "bytes": 953511
     },
     {
       "name": "CSS",
       "color": "#663399",
-      "bytes": 386184
+      "bytes": 388370
     },
     {
       "name": "Shell",
@@ -74,15 +74,10 @@
     }
   ],
   "contributions": {
-    "total": 15980,
+    "total": 15994,
     "weeks": [
       {
         "days": [
-          {
-            "date": "2025-11-20",
-            "count": 9,
-            "level": 1
-          },
           {
             "date": "2025-11-21",
             "count": 40,
@@ -129,7 +124,7 @@
           },
           {
             "date": "2025-11-29",
-            "count": 33,
+            "count": 32,
             "level": 1
           }
         ]
@@ -1435,7 +1430,7 @@
           },
           {
             "date": "2026-07-21",
-            "count": 91,
+            "count": 92,
             "level": 2
           },
           {
@@ -2113,6 +2108,11 @@
           },
           {
             "date": "2026-11-20",
+            "count": 23,
+            "level": 1
+          },
+          {
+            "date": "2026-11-21",
             "count": 0,
             "level": 0
           }
