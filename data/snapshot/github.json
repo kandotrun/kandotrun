@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-21T02:12:24.793Z",
+  "fetchedAt": "2026-11-22T01:17:13.429Z",
   "login": "kandotrun",
   "totals": {
     "publicRepos": 82,
@@ -9,7 +9,7 @@
     "pullRequests": 289,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15994
+    "contributions": 15954
   },
   "languages": [
     {
@@ -74,22 +74,8 @@
     }
   ],
   "contributions": {
-    "total": 15994,
+    "total": 15954,
     "weeks": [
-      {
-        "days": [
-          {
-            "date": "2025-11-21",
-            "count": 40,
-            "level": 1
-          },
-          {
-            "date": "2025-11-22",
-            "count": 0,
-            "level": 0
-          }
-        ]
-      },
       {
         "days": [
           {
@@ -2113,6 +2099,15 @@
           },
           {
             "date": "2026-11-21",
+            "count": 0,
+            "level": 0
+          }
+        ]
+      },
+      {
+        "days": [
+          {
+            "date": "2026-11-22",
             "count": 0,
             "level": 0
           }
