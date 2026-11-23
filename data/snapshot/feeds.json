@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-22T01:17:13.429Z",
+  "fetchedAt": "2026-11-23T01:41:29.101Z",
   "zenn": [
     {
       "title": "AI生成HTMLを「信頼せず」に配信する ― Cloudflare Workers + Hono で作る認証付きホスティングの設計",
@@ -33,7 +33,7 @@
       "title": "Mac mini品薄だけど、ローカルLLMは実用的じゃない【エンジニアの本音】",
       "url": "https://www.youtube.com/watch?v=vwBRNTa6gVY",
       "thumbnail": "https://i.ytimg.com/vi/vwBRNTa6gVY/mqdefault.jpg",
-      "viewCount": 75000
+      "viewCount": 76000
     },
     {
       "id": "8FmOzkeUvJ8",
