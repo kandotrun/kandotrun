@@ -1,21 +1,21 @@
 {
-  "fetchedAt": "2026-11-27T03:38:45.786Z",
+  "fetchedAt": "2026-11-28T03:18:56.543Z",
   "login": "kandotrun",
   "totals": {
-    "publicRepos": 83,
+    "publicRepos": 82,
     "stars": 17,
     "followers": 46,
-    "commits": 4072,
-    "pullRequests": 290,
+    "commits": 4074,
+    "pullRequests": 295,
     "issues": 45,
     "reviews": 4,
-    "contributions": 15971
+    "contributions": 16059
   },
   "languages": [
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "bytes": 24195704
+      "bytes": 24455222
     },
     {
       "name": "Rust",
@@ -23,14 +23,14 @@
       "bytes": 2279235
     },
     {
-      "name": "Python",
-      "color": "#3572A5",
-      "bytes": 2139461
-    },
-    {
       "name": "Swift",
       "color": "#F05138",
-      "bytes": 2116791
+      "bytes": 2230432
+    },
+    {
+      "name": "Python",
+      "color": "#3572A5",
+      "bytes": 2146754
     },
     {
       "name": "HTML",
@@ -65,7 +65,7 @@
     {
       "name": "Just",
       "color": "#384d54",
-      "bytes": 9248
+      "bytes": 10732
     },
     {
       "name": "Dockerfile",
@@ -74,15 +74,10 @@
     }
   ],
   "contributions": {
-    "total": 15971,
+    "total": 16059,
     "weeks": [
       {
         "days": [
-          {
-            "date": "2025-11-27",
-            "count": 23,
-            "level": 1
-          },
           {
             "date": "2025-11-28",
             "count": 77,
@@ -246,7 +241,7 @@
           },
           {
             "date": "2025-12-27",
-            "count": 17,
+            "count": 16,
             "level": 1
           }
         ]
@@ -2108,12 +2103,17 @@
           },
           {
             "date": "2026-11-26",
-            "count": 18,
+            "count": 20,
             "level": 1
           },
           {
             "date": "2026-11-27",
-            "count": 2,
+            "count": 105,
+            "level": 2
+          },
+          {
+            "date": "2026-11-28",
+            "count": 7,
             "level": 1
           }
         ]
